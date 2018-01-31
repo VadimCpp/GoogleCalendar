@@ -172,18 +172,18 @@ window.formatGoogleCalendar = (() => {
             moreDaysEvent = false;
         }
 
-        var dateFormatted = getFormattedDate(dateStart, dateEnd, dayNames, moreDaysEvent, isAllDayEvent),
+        var dateFormatted = getSimpleFormattedDate(dateStart, dateEnd, dayNames, moreDaysEvent, isAllDayEvent),
             output = '<' + tagName + '>',
             summary = result.summary || '',
             description = result.description || '',
-            location = result.location || '',
+            location = getSimpleLocation(result.location || ''),
             i;
 
         for (i = 0; i < format.length; i++) {
             format[i] = format[i].toString();
 
             if (format[i] === '*summary*') {
-                output = output.concat(`<span class="summary">${summary}</span>`);
+                output = output.concat(`<span class="summary">«${summary}»</span>`);
             } else if (format[i] === '*date*') {
                 output = output.concat(`<span class="date">${dateFormatted}</span>`);
             } else if (format[i] === '*description*') {
@@ -225,7 +225,7 @@ window.formatGoogleCalendar = (() => {
     //Get month name according to index
     const getMonthName = month => {
         var monthNames = [
-            'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+            'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
         ];
 
         return monthNames[month];
@@ -233,7 +233,7 @@ window.formatGoogleCalendar = (() => {
 
     const getDayName = day => {
       var dayNames = [
-          'Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'
+          'воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'
       ];
 
       return dayNames[day];
@@ -272,7 +272,7 @@ window.formatGoogleCalendar = (() => {
         }
 
         if (config.sameDayTimes && !moreDaysEvent && !isAllDayEvent) {
-            formattedTime = ' в ' + getFormattedTime(dateStart) + ' － ' + getFormattedTime(dateEnd);
+            formattedTime = ' в ' + getFormattedTime12(dateStart) + ' － ' + getFormattedTime12(dateEnd);
         }
 
         //month day, year time-time
@@ -325,6 +325,22 @@ window.formatGoogleCalendar = (() => {
         return dayNameStart + getMonthName(dateStart[1]) + ' ' + dateStart[0] + ', ' + dateStart[2] + '-' + dayNameEnd + getMonthName(dateEnd[1]) + ' ' + dateEnd[0] + ', ' + dateEnd[2];
     };
 
+    const getSimpleFormattedDate = (dateStart, dateEnd, dayNames, moreDaysEvent, isAllDayEvent) => {
+        var formattedTime = '',
+            dayNameStart = '';
+
+        if (dayNames) {
+          dayNameStart = getDayNameFormatted(dateStart);
+        }
+
+        if (config.sameDayTimes) {
+            formattedTime = '🕗&nbsp;&nbsp;' + getFormattedTime24(dateStart);
+        }
+
+        //month day, year time-time
+        return '📅&nbsp;&nbsp;' + dateStart[0] + ' ' + getMonthName(dateStart[1]) + ', ' + dayNameStart + ' ' + formattedTime;
+    }
+
     //Check differences between dates and format them
     const getFormattedDate = (dateStart, dateEnd, dayNames, moreDaysEvent, isAllDayEvent) => {
         var formattedDate = '';
@@ -370,7 +386,7 @@ window.formatGoogleCalendar = (() => {
         return formattedDate;
     };
 
-    const getFormattedTime = (date) => {
+    const getFormattedTime12 = (date) => {
         var formattedTime = '',
             period = 'AM',
             hour = date[3],
@@ -398,6 +414,34 @@ window.formatGoogleCalendar = (() => {
         return formattedTime;
     };
 
+    const getFormattedTime24 = (date) => {
+        var formattedTime = '',
+            hour = date[3],
+            minute = date[4];
+
+        // Ensure 2-digit minute value.
+        minute = (minute < 10 ? '0' : '') + minute;
+
+        // Ensure 2-digit hour value.
+        hour = (hour < 10 ? '0' : '') + hour;
+
+        // Format time.
+        formattedTime = hour + ':' + minute;
+
+        return formattedTime;
+    };
+
+    const getSimpleLocation = (location) => {
+        var simpleLocation = '',
+            secondCommaPosition = location.indexOf(',', location.indexOf(',', 0) + 1);
+
+        if (secondCommaPosition > 0) {
+          simpleLocation = location.substr(0, secondCommaPosition);
+        }
+
+        return ' 📍&nbsp;&nbsp;' + simpleLocation;
+    }
+
     return { 
         init: function (settingsOverride) {
             var settings = {
@@ -414,7 +458,7 @@ window.formatGoogleCalendar = (() => {
                 pastSelector: '#events-past',
                 upcomingHeading: '<h2>Upcoming events</h2>',
                 pastHeading: '<h2>Past events</h2>',
-                format: ['*date*', ': ', '*summary*', ' &mdash; ', '*description*', ' in ', '*location*'],
+                format: ['*date*', '*summary*', '*description*', '*location*'],
                 timeMin: undefined,
                 timeMax: undefined
             };
