@@ -6,17 +6,32 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <style type="text/css">
-        li {
+        ul li {
             /*text-decoration: none;*/
             list-style: none;
         }
     </style>
   </head>
   <body>
-    <ul id="events-upcoming">
-    </ul>
-    <ul id="events-past">
-    </ul>
+    <!-- Секция с событиями -->
+    <section>
+        <h1> Список событий </h1>
+        <ul id="events-upcoming">
+        </ul>
+        <ul id="events-past">
+        </ul>
+    </section>
+
+    <!-- Секция с инструкцией -->
+    <section>
+        <h1> Как добавить событие </h1>
+        <ol>
+            <li>Связаться с <a href="https://vk.com/vadimcpp">VadimCpp</a> и запросить доступ к календарю</li>
+            <li>Добавить событие в календарь "events4friends"</li>
+            <li>Убедиться, что сообщение добавлено: <a href="https://calendar.google.com/calendar/embed?src=dveenjcu4k5ktd3k8pv4iul2bk%40group.calendar.google.com&ctz=Europe%2FKaliningrad"> events4friends (тыц) </a> </li>
+            <li> <a href="javascript: location.reload();"> Перегрузить эту страницу (тыц) </a> </li>
+        </ol>
+    </section>
     <script src="dist/format-google-calendar.min.js"></script>
     <script>
 
