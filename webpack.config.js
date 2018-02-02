@@ -4,13 +4,10 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
-    entry: {
-        'format-google-calendar': './src/app.js',
-        'format-google-calendar.min': './src/app.js'
-    },
+    entry: './src/app.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].js'
+        filename: 'app.bundle.js'
     },
     module: {
         loaders: [
