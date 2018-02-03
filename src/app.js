@@ -1,4 +1,5 @@
 import GoogleCalendar from './model/googlecalendar.js';
+import SimpleView from './view/simpleview.js';
 
 /**
  * Class representing an App.
@@ -27,30 +28,22 @@ class App {
         var that = this;
 
         document.getElementById('btn-load').addEventListener('click', function(e) {
-
             that.updateSchedule();
-            
-        }, false);
+        });
         
 
     }
 
     /**
      * Update the schedule.
-     *   
      * @public
      */
     updateSchedule() {
-
-        
         this.disableLoadButton();
         this.displayProgress();
         this.hideError();
 
         this._googleCalendar.load((success) => {
-
-            success = false; // tmp
-
             if (success) {
                 this.hideProgress();
                 this.enableLoadButton();
@@ -60,7 +53,6 @@ class App {
                 this.enableLoadButton();
                 this.displayError();
             }
-
         });
     }
 
@@ -108,131 +100,16 @@ class App {
 
 
     displayData() {
-        // TODO:
+        /**
+         * @type {!SimpleView}
+         */
+        let simpleView = new SimpleView('simple-view');
+
+        simpleView.render(this._googleCalendar.getData());
     }
 
 }
 
-
-/**
- * Format Google Calendar JSON output into human readable list
- *
- * Copyright 2017, Milan Lund
- *
- */
-
-// window.formatGoogleCalendar = (() => {
-
-//     'use strict';
-
-//     var config;
-
-//     const renderList = (data, settings) => {
-//         var result = [];
-
-//         //Remove cancelled events, sort by date
-//         result = data.items.filter(item => item && item.hasOwnProperty('status') && item.status !== 'cancelled').sort(comp).reverse();
-
-//         var pastCounter = 0,
-//             upcomingCounter = 0,
-//             pastResult = [],
-//             upcomingResult = [],
-//             upcomingResultTemp = [],
-//             upcomingElem = document.querySelector(settings.upcomingSelector),
-//             pastElem = document.querySelector(settings.pastSelector),
-//             i;
-
-//         if (settings.pastTopN === -1) {
-//             settings.pastTopN = result.length;
-//         }
-
-//         if (settings.upcomingTopN === -1) {
-//             settings.upcomingTopN = result.length;
-//         }
-
-//         if (settings.past === false) {
-//             settings.pastTopN = 0;
-//         }
-
-//         if (settings.upcoming === false) {
-//             settings.upcomingTopN = 0;
-//         }
-
-//         for (i in result) {
-
-//             if (isPast(result[i].end.dateTime || result[i].end.date)) {
-//                 if (pastCounter < settings.pastTopN) {
-//                     pastResult.push(result[i]);
-//                     pastCounter++;
-//                 }
-//             } else {
-//                 upcomingResultTemp.push(result[i]);
-//             }
-//         }
-
-//         upcomingResultTemp.reverse();
-
-//         for (i in upcomingResultTemp) {
-//             if (upcomingCounter < settings.upcomingTopN) {
-//                 upcomingResult.push(upcomingResultTemp[i]);
-//                 upcomingCounter++;
-//             }
-//         }
-
-//         for (i in pastResult) {
-//             pastElem.insertAdjacentHTML('beforeend', transformationList(pastResult[i], settings.itemsTagName, settings.format));
-//         }
-
-//         for (i in upcomingResult) {
-//             upcomingElem.insertAdjacentHTML('beforeend', transformationList(upcomingResult[i], settings.itemsTagName, settings.format));
-//         }
-
-//         if (upcomingElem.firstChild) {
-//             upcomingElem.insertAdjacentHTML('beforebegin', settings.upcomingHeading);
-//         }
-
-//         if (pastElem.firstChild) {
-//             pastElem.insertAdjacentHTML('beforebegin', settings.pastHeading);
-//         }
-//     };
-
-//     //Gets JSON from Google Calendar and transfroms it into html list items and appends it to past or upcoming events list
-//     const init = (settings) => {
-//         config = settings;
-
-//         var finalURL = settings.calendarUrl;
-
-//         if (settings.recurringEvents) {
-//             finalURL = finalURL.concat('&singleEvents=true&orderBy=starttime');
-//         }
-
-//         if (settings.timeMin) {
-//             finalURL = finalURL.concat('&timeMin=' + settings.timeMin);
-//         };
-        
-//         if (settings.timeMax) {
-//             finalURL = finalURL.concat('&timeMax=' + settings.timeMax);
-//         };
-
-//         //Get JSON, parse it, transform into list items and append it to past or upcoming events list
-//         var request = new XMLHttpRequest();
-//         request.open('GET', finalURL, true);
-        
-//         request.onload = () => {
-//             if (request.status >= 200 && request.status < 400) {
-//                 var data = JSON.parse(request.responseText);
-//                 renderList(data, settings);
-//             } else {
-//                 console.error(err);
-//             }
-//         };
-        
-//         request.onerror = () => {
-//             console.error(err);
-//         };
-        
-//         request.send();
-//     };
 
 //     //Overwrites defaultSettings values with overrideSettings and adds overrideSettings if non existent in defaultSettings
 //     const mergeOptions = (defaultSettings, overrideSettings) => {

@@ -32,11 +32,17 @@ export default class GoogleCalendar {
          */
         this._recurringEvents = true;
 
+        /**
+         * @type {!Object}
+         * @private
+         */
+        this._data = null;
     }
 
     /**
      * Gets JSON from Google Calendar and transfroms it into html list items and appends it to past or upcoming events list
      * @param { !function( !boolean, ?Object ) }
+     * @public
      */
     load(callback) {
 
@@ -59,11 +65,8 @@ export default class GoogleCalendar {
         request.onload = () => {
             if (request.status >= 200 && request.status < 400) {
 
-                /**
-                 * @type {!Object}
-                 */
-                let data = JSON.parse(request.responseText);
-                callback(true, data);
+                this._data = JSON.parse(request.responseText);;
+                callback(true, this._data);
             } else {
                 console.error(err);
                 callback(false, null);
@@ -77,5 +80,13 @@ export default class GoogleCalendar {
         
         request.send();
     };
+
+    /**
+     * @return {?Object}
+     * @public
+     */
+    getData() {
+        return this._data;
+    }
 
 };
