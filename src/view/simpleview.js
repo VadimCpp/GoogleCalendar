@@ -147,15 +147,12 @@ export default class SimpleView {
          */
         let dateStart = this._getDateInfo(event.start.dateTime || event.start.date);
 
-        /**
-         * @type {!string}
-         */
-        let dateFormatted = this._getSimpleFormattedDate(dateStart);
+        retVal += this._getSimpleFormattedDate(dateStart);;
+        retVal += ' － ';
+        retVal += '«' + event.summary + '»';
+        retVal += ', ';
 
-        retVal += dateFormatted;
-
-        // TODO:
-
+        retVal += this._getSimpleLocation(event.location || ''),
 
         retVal += '</p>';
 
@@ -294,6 +291,30 @@ export default class SimpleView {
 
         return monthNames[month];
     };
+
+    /**
+     * @type {!string} location
+     * @return {!string}
+     * @private
+     */   
+    _getSimpleLocation(location) {
+
+        /**
+         * @type {!string}
+         */  
+        let simpleLocation = '';
+
+        /**
+         * @type {!number}
+         */  
+        let secondCommaPosition = location.indexOf(',', location.indexOf(',', 0) + 1);
+
+        if (secondCommaPosition > 0) {
+          simpleLocation = location.substr(0, secondCommaPosition);
+        }
+
+        return '📍&nbsp;&nbsp;' + simpleLocation;
+    }
 
 
 }
