@@ -142,12 +142,158 @@ export default class SimpleView {
          */
         let retVal = '<p>';
 
-        console.log(event);
+        /**
+         * @type {!Array}
+         */
+        let dateStart = this._getDateInfo(event.start.dateTime || event.start.date);
 
-        retVal += "TODO:";
+        /**
+         * @type {!string}
+         */
+        let dateFormatted = this._getSimpleFormattedDate(dateStart);
+
+        retVal += dateFormatted;
+
+        // TODO:
+
+
         retVal += '</p>';
 
         return retVal;
     }
+
+    /**
+     * Get temp array with information abou day in followin format: [day number, month number, year, hours, minutes]
+     *
+     * @type {!string} startDate
+     * @return {!Array}
+     * @private
+     */
+    _getDateInfo(startDate) {
+        /**
+         * @type {!Date}
+         */
+        let date = new Date(startDate);
+
+        return [date.getDate(), date.getMonth(), date.getFullYear(), date.getHours(), date.getMinutes(), 0, 0];
+    };
+
+
+    /**
+     * @type {!Array} dateStart
+     * @return {!string} - date, month, day, time
+     * @private
+     */
+    _getSimpleFormattedDate(dateStart) {
+        /**
+         * @type {!string}
+         */        
+        let formattedTime = '🕗&nbsp;&nbsp;' + this._getFormattedTime24(dateStart);
+            
+        /**
+         * @type {!string}
+         */  
+        let dayNameStart = this._getDayNameFormatted(dateStart);
+
+        return '📅&nbsp;&nbsp;' + dateStart[0] + ' ' + this._getMonthName(dateStart[1]) + ', ' + dayNameStart + ' ' + formattedTime;
+    }
+
+    /**
+     * @type {!Array} date
+     * @return {!string} - hh:mm
+     * @private
+     */
+    _getFormattedTime24(date) {
+        var formattedTime = '',
+            hour = date[3],
+            minute = date[4];
+
+        // Ensure 2-digit minute value.
+        minute = (minute < 10 ? '0' : '') + minute;
+
+        // Ensure 2-digit hour value.
+        hour = (hour < 10 ? '0' : '') + hour;
+
+        // Format time.
+        formattedTime = hour + ':' + minute;
+
+        return formattedTime;
+    }
+
+    /**
+     * @type {!Array} dateFormatted
+     * @return {!string} - ????
+     * @private
+     */
+    _getDayNameFormatted(dateFormatted) {
+
+        return this._getDayName(this._getDateFormatted(dateFormatted).getDay()) + ' ';
+
+    }
+    
+    /**
+     * @type {!number} day
+     * @return {!string} - week day
+     * @private
+     */        
+    _getDayName(day) {
+
+        /**
+         * @type {!Array}
+         */        
+        let dayNames = [
+            'воскресенье', 
+            'понедельник', 
+            'вторник', 
+            'среда', 
+            'четверг', 
+            'пятница', 
+            'суббота'
+        ];
+
+        return dayNames[day];
+    };    
+
+    /**
+     * @type {!Array} dateInfo
+     * @return {!Date}
+     * @private
+     */        
+    _getDateFormatted(dateInfo) {
+
+        return new Date(dateInfo[2], dateInfo[1], dateInfo[0], dateInfo[3], dateInfo[4] + 0, 0);
+
+    }
+
+    /**
+     * Get month name according to index.
+     *
+     * @type {!number} month
+     * @return {!string}
+     * @private
+     */      
+    _getMonthName(month) {
+
+        /**
+         * @type {!Array}
+         */      
+        let monthNames = [
+            'января', 
+            'февраля', 
+            'марта', 
+            'апреля', 
+            'мая', 
+            'июня', 
+            'июля', 
+            'августа', 
+            'сентября', 
+            'октября', 
+            'ноября', 
+            'декабря'
+        ];
+
+        return monthNames[month];
+    };
+
 
 }
