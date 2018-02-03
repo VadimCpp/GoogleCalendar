@@ -83,7 +83,7 @@ export default class SimpleView {
         /**
          * @type {!string}
          */
-        let innerHTML = '';
+        let innerHTML = '<h1 class="h2"> Анонс мероприятий </h1>';
 
         for (i in upcomingResult) {
             innerHTML += this._transformToParagraph(upcomingResult[i]);

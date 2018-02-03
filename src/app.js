@@ -60,14 +60,14 @@ class App {
      * @public
      */
     disableLoadButton() {
-        document.getElementById('btn-load').classList.add('pure-button-disabled');
+        document.getElementById('btn-load').classList.add('disabled');
     }
 
     /**
      * @public
      */
     enableLoadButton() {
-        document.getElementById('btn-load').classList.remove('pure-button-disabled');
+        document.getElementById('btn-load').classList.remove('disabled');
     }
 
     /**

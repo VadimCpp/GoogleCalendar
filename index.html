@@ -7,9 +7,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
 
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
     <style type="text/css">
+
+        /*********************************/
+        /* BODY                          */
+        /*********************************/
+
+        .body-fixed-image {
+            background: no-repeat center center fixed; 
+            background-image: url(/img/january-2290045_1280.jpg);
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        .body-full-screen {
+            min-height: 100%;
+        }
 
         /*********************************/
         /* HEADER                        */
@@ -21,7 +38,6 @@
             display: flex;
             height: 80px;
             justify-content: center;
-            margin-bottom: 15px;
         }
 
         .header__logo {
@@ -108,6 +124,7 @@
         /*********************************/
 
         .container {
+            margin-top: 15px;
         }
 
         .container_hidden {
@@ -115,11 +132,8 @@
         }
 
         .container__inner {
-            margin: 0 auto;
-            max-width: 980px;
-            padding: 10px;
+            background-color: rgba(255, 255, 255, .95);
         }
-
 
         /*********************************/
         /* ERROR SECTION                 */
@@ -129,18 +143,10 @@
             color: red;   
         }
 
-        /*********************************/
-        /* DATA SECTION                  */
-        /*********************************/
-
-        .container_border-top {
-            border-top: 1px solid gray;
-            margin-top: 15px;
-        }
 
     </style>
   </head>
-  <body>
+  <body class="body-fixed-image body-full-screen">
 
     <!-- Шапка -->
     <header class="header">
@@ -152,95 +158,51 @@
         </div>
     </header>
 
-    <!-- Секция с панелью настроек -->
-    <section class="container">
-        <div class="container__inner">
-            <button class="pure-button" id="btn-load">Загрузить расписание</button>
+    <main class="container">
+
+        <!-- Секция с панелью настроек -->
+        <section class="container__inner p-3">
+            <button type="button" class="btn btn-warning" id="btn-load">Обновить расписание</button>
             <!-- TODO -->
-        </div>
-    </section>
+        </section>
 
-    <!-- Секция со статусом -->
-    <section class="container container_hidden" id="view-progress">
-        <div class="container__inner">
+        <!-- Секция со статусом -->
+        <section class="container__inner p-3 container_hidden" id="view-progress">
             Загужаем данные...
-        </div>
-    </section>
+        </section>
 
-    <!-- Секция с ошибкой -->
-    <section class="container container_hidden" id="view-error">
-        <div class="container__inner">
+        <!-- Секция с ошибкой -->
+        <section class="ontainer__inner p-3 container_hidden" id="view-error">
             <span class="container__inner_error-message">
                 Ошибка загрузки данных. :(
             </span>
-        </div>
-    </section>
+        </section>
 
-    <!-- Секция с событиями -->
-    <section class="container container_border-top">
-        <div class="container__inner" id="simple-view">
+        <!-- Секция с событиями -->
+        <section class="container__inner p-3" id="simple-view"> 
+        </section>
 
-            <h1> Список событий </h1>
-            <ul id="events-upcoming">
-            </ul>
-            <ul id="events-past">
-            </ul>
+        <!-- Секция с инструкцией -->
+        <section class="container__inner p-3">
+            <h1 class="h2"> Как добавить событие? </h1>
+            <p> Просто отправьте информацию <a href="https://vk.com/vadimcpp">VadimCpp</a> </p>
+            <p> Также у нас есть <a href="https://vk.com/kldevents4friends">группа вконтакте</a> и 
+                <a href="https://t.me/joinchat/CNL-k1NDgMaluPweWuFFfg">телеграмм-чятик</a>. </p>
 
-
-        </div>
-    </section>
-
-    <!-- Секция с инструкцией -->
-    <section>
-        <div class="events-container">
-
-            <h1> Как добавить событие </h1>
-            <ol>
-                <li>Связаться с <a href="https://vk.com/vadimcpp">VadimCpp</a> и запросить доступ к календарю</li>
-                <li>Добавить событие в календарь "events4friends"</li>
+<!--                 <li>Добавить событие в календарь "events4friends"</li>
                 <li>Убедиться, что сообщение добавлено: <a href="https://calendar.google.com/calendar/embed?src=dveenjcu4k5ktd3k8pv4iul2bk%40group.calendar.google.com&ctz=Europe%2FKaliningrad"> events4friends (тыц) </a> </li>
                 <li> <a href="javascript: location.reload();"> Перегрузить эту страницу (тыц) </a> </li>
-            </ol>
+ -->
+        </section>
 
-        </div>
-    </section>
-
-<!--     <script src="dist/format-google-calendar.min.js"></script>
-    <script>
-
-      // Contact partypubcrawl2017@gmail.com for more information
-
-      // From Google Developer Console
-      var apiKey = "AIzaSyBOXnnT1F-h9s1FP3063BQ_o0KtD7Y0DPs";
-
-      // From Google Calendar Web App
-      var calendarId = "dveenjcu4k5ktd3k8pv4iul2bk@group.calendar.google.com";
-
-      formatGoogleCalendar.init({
-        calendarUrl: 'https://www.googleapis.com/calendar/v3/calendars/' 
-            + calendarId 
-            + '/events?key=' 
-            + apiKey,
-        past: true,
-        upcoming: true,
-        sameDayTimes: true,
-        pastTopN: 20,
-        upcomingTopN: 20,
-        recurringEvents: true,
-        itemsTagName: 'li',
-        upcomingSelector: '#events-upcoming',
-        pastSelector: '#events-past',
-        upcomingHeading: '<p>Анонс мероприятий:</p>',
-        pastHeading: '<p>Прошлые события:</p>',
-        // format: ['*date*', ' : ', '*summary*', ' &mdash; ', '*description*', ' in ', '*location*'],
-        format: ['*date*', ' &mdash; ', '*summary*', '*location*'],
-        timeMin: '2016-06-03T10:00:00-07:00',
-        timeMax: '2020-06-03T10:00:00-07:00'
-      });
-    </script> -->
+    </main>
 
     <!-- App element to be created here -->
     <script src="dist/app.bundle.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
   </body>
 </html>

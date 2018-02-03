@@ -156,7 +156,7 @@ var App = function () {
     }, {
         key: 'disableLoadButton',
         value: function disableLoadButton() {
-            document.getElementById('btn-load').classList.add('pure-button-disabled');
+            document.getElementById('btn-load').classList.add('disabled');
         }
 
         /**
@@ -166,7 +166,7 @@ var App = function () {
     }, {
         key: 'enableLoadButton',
         value: function enableLoadButton() {
-            document.getElementById('btn-load').classList.remove('pure-button-disabled');
+            document.getElementById('btn-load').classList.remove('disabled');
         }
 
         /**
@@ -473,7 +473,7 @@ var SimpleView = function () {
       /**
        * @type {!string}
        */
-      var innerHTML = '';
+      var innerHTML = '<h1 class="h2"> Анонс мероприятий </h1>';
 
       for (i in upcomingResult) {
         innerHTML += this._transformToParagraph(upcomingResult[i]);
