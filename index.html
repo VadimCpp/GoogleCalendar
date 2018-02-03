@@ -8,29 +8,184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
 
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+
     <style type="text/css">
-        ul li {
-            /*text-decoration: none;*/
-            list-style: none;
+
+        /*********************************/
+        /* HEADER                        */
+        /*********************************/
+
+        .header {
+            align-items: center;
+            background-color: black;
+            display: flex;
+            height: 80px;
+            justify-content: center;
+            margin-bottom: 15px;
         }
 
-        .events-container {
-            max-width: 980px;
-            margin: 0 auto;
+        .header__logo {
+            border-right: 1px solid gray;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60px;
+            width: 180px;
         }
+
+        .header__text-effect {
+            overflow: hidden;
+            position: relative;
+            filter: contrast(110%) brightness(190%);
+        }
+
+        .header__neon {
+            position: relative;
+            background: black;
+            color: transparent;
+        }
+
+        .header__neon::before,
+        .header__neon::after {
+            content: attr(data-text);
+            color: white;
+            filter: blur(0.02em);
+            position: absolute;
+            top: 0; left: 0;
+            pointer-events: none;
+        }
+
+        .header__neon::after {
+            mix-blend-mode: difference;
+        }
+
+        .header__gradient,
+        .header__spotlight {
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            pointer-events: none;
+            z-index: 10;  
+        }
+
+        .header__gradient {
+            background: linear-gradient(45deg, green, orange, red);
+            mix-blend-mode: multiply;
+        }
+
+        .header__spotlight {
+            animation: light 5s infinite linear;
+            background: 
+                radial-gradient(circle, white, transparent 25%) 0 0 / 25% 25%, 
+                radial-gradient(circle, white, black 25%) 50% 50% / 12.5% 12.5%;
+            top: -100%; left: -100%;
+            mix-blend-mode: color-dodge;
+        }
+
+        @keyframes light {
+          100% {
+            transform: translate3d(50%, 50%, 0);
+          }
+        }
+
+        .header__neon {
+            font: 700 60px 'Lato', sans-serif;
+            text-align: center;
+            margin: 0;
+        }
+
+        @media screen and (max-width: 768px) {
+            .header__neon {
+                font: 700 40px 'Lato', sans-serif;
+                text-align: center;
+                margin: 0;
+            }
+        }
+
+
+        /*********************************/
+        /* COMMON                        */
+        /*********************************/
+
+        .container {
+        }
+
+        .container_hidden {
+            display: none;
+        }
+
+        .container__inner {
+            margin: 0 auto;
+            max-width: 980px;
+            padding: 10px;
+        }
+
+
+        /*********************************/
+        /* ERROR SECTION                 */
+        /*********************************/
+
+        .container__inner_error-message {
+            color: red;   
+        }
+
+        /*********************************/
+        /* DATA SECTION                  */
+        /*********************************/
+
+        .container_border-top {
+            border-top: 1px solid gray;
+            margin-top: 15px;
+        }
+
     </style>
   </head>
   <body>
 
+    <!-- Шапка -->
+    <header class="header">
+        <!-- https://codepen.io/anon/pen/EQPRew -->
+        <div class="header__text-effect">
+            <h2 class="header__neon" data-text="events4friends" contenteditable>events4friends</h2>
+            <div class="header__gradient"></div>
+            <div class="header__spotlight"></div>
+        </div>
+    </header>
+
+    <!-- Секция с панелью настроек -->
+    <section class="container">
+        <div class="container__inner">
+            <button class="pure-button" id="btn-load">Загрузить расписание</button>
+            <!-- TODO -->
+        </div>
+    </section>
+
+    <!-- Секция со статусом -->
+    <section class="container container_hidden" id="view-progress">
+        <div class="container__inner">
+            Загужаем данные...
+        </div>
+    </section>
+
+    <!-- Секция с ошибкой -->
+    <section class="container container_hidden" id="view-error">
+        <div class="container__inner">
+            <span class="container__inner_error-message">
+                Ошибка загрузки данных. :(
+            </span>
+        </div>
+    </section>
+
     <!-- Секция с событиями -->
-    <section>
-        <div class="events-container">
+    <section class="container container_border-top">
+        <div class="container__inner">
 
             <h1> Список событий </h1>
             <ul id="events-upcoming">
             </ul>
             <ul id="events-past">
             </ul>
+
 
         </div>
     </section>
@@ -46,11 +201,11 @@
                 <li>Убедиться, что сообщение добавлено: <a href="https://calendar.google.com/calendar/embed?src=dveenjcu4k5ktd3k8pv4iul2bk%40group.calendar.google.com&ctz=Europe%2FKaliningrad"> events4friends (тыц) </a> </li>
                 <li> <a href="javascript: location.reload();"> Перегрузить эту страницу (тыц) </a> </li>
             </ol>
-            
+
         </div>
     </section>
 
-    <script src="dist/format-google-calendar.min.js"></script>
+<!--     <script src="dist/format-google-calendar.min.js"></script>
     <script>
 
       // Contact partypubcrawl2017@gmail.com for more information
@@ -82,6 +237,10 @@
         timeMin: '2016-06-03T10:00:00-07:00',
         timeMax: '2020-06-03T10:00:00-07:00'
       });
-    </script>
+    </script> -->
+
+    <!-- App element to be created here -->
+    <script src="dist/app.bundle.js"></script>
+
   </body>
 </html>
