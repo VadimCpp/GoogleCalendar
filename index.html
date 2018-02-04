@@ -7,8 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style type="text/css">
 
         /*********************************/
@@ -123,16 +122,34 @@
         /* COMMON                        */
         /*********************************/
 
-        .container {
-            margin-top: 15px;
-        }
-
         .container_hidden {
             display: none;
         }
 
         .container__inner {
             background-color: rgba(255, 255, 255, .95);
+        }
+
+        .container__inner_top_radius {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px; 
+        }
+
+        .container__inner_bottom_radius {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px; 
+        }
+
+        .btn {
+            cursor: pointer;
+        }
+
+        .float-right {
+            float: right;
+        }
+
+        .clear-both {
+            clear: both;
         }
 
         /*********************************/
@@ -158,12 +175,19 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container mt-3 mb-3">
 
         <!-- Секция с панелью настроек -->
-        <section class="container__inner p-3">
-            <button type="button" class="btn btn-warning" id="btn-load">Обновить расписание</button>
-            <!-- TODO -->
+        <section class="container__inner container__inner_top_radius p-3 clear-both">
+            <button type="button" class="btn btn-warning" id="btn-load">Обновить</button>
+            <button 
+                type="button" 
+                class="btn btn-secondary float-right" 
+                id="btn-copy" 
+                data-clipboard-target="#simple-view"
+            >
+                Скопировать
+            </button>
         </section>
 
         <!-- Секция со статусом -->
@@ -182,17 +206,24 @@
         <section class="container__inner p-3" id="simple-view"> 
         </section>
 
-        <!-- Секция с инструкцией -->
+        <!-- Секция с соцсетями -->
         <section class="container__inner p-3">
             <h1 class="h2"> Как добавить событие? </h1>
             <p> Просто отправьте информацию <a href="https://vk.com/vadimcpp">VadimCpp</a> </p>
             <p> Также у нас есть <a href="https://vk.com/kldevents4friends">группа вконтакте</a> и 
                 <a href="https://t.me/joinchat/CNL-k1NDgMaluPweWuFFfg">телеграмм-чятик</a>. </p>
+        </section>
 
-<!--                 <li>Добавить событие в календарь "events4friends"</li>
-                <li>Убедиться, что сообщение добавлено: <a href="https://calendar.google.com/calendar/embed?src=dveenjcu4k5ktd3k8pv4iul2bk%40group.calendar.google.com&ctz=Europe%2FKaliningrad"> events4friends (тыц) </a> </li>
-                <li> <a href="javascript: location.reload();"> Перегрузить эту страницу (тыц) </a> </li>
- -->
+        <!-- Секция с инструкцией -->
+        <section class="container__inner container__inner_bottom_radius p-3">
+            <h1 class="h2"> Как это работает? </h1>
+            <p> Этот сайт загружает данные из Google календаря <a href="https://calendar.google.com/calendar/embed?src=dveenjcu4k5ktd3k8pv4iul2bk%40group.calendar.google.com&ctz=Europe%2FKaliningrad"> (тыц) </a> </p>
+            <p> Посмотреть исходники и законтрибутить можно на Github 
+                <a href="https://github.com/VadimCpp/events4friends">(тыц)</a>. 
+            </p>
+            <p> Почитать, как это было сделано можно в блоге 
+                <a href="http://webdev2018.blogspot.ru/2018/02/events4friends.html">(тыц)</a>. 
+            </p>
         </section>
 
     </main>
@@ -200,9 +231,51 @@
     <!-- App element to be created here -->
     <script src="dist/app.bundle.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script
+        src="http://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js" integrity="sha384-feJI7QwhOS+hwpX2zkaeJQjeiwlhOP+SdQDqhgvvo1DsjtiSQByFdThsxO669S2D" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
 
+    <script type="text/javascript">
+
+        // Tooltip on click of a button:
+        // https://stackoverflow.com/a/37799208/1775459
+
+        // Tooltip
+
+        $('#btn-copy').tooltip({
+            trigger: 'click',
+            placement: 'bottom'
+        });
+
+        function setTooltip(message) {
+            $('#btn-copy').tooltip('hide')
+            .attr('data-original-title', message)
+            .tooltip('show');
+        }
+
+        function hideTooltip() {
+            setTimeout(function() {
+                $('#btn-copy').tooltip('hide');
+            }, 1000);
+        }
+
+        // Clipboard
+
+        var clipboard = new Clipboard('#btn-copy');
+
+        clipboard.on('success', function(e) {
+            setTooltip('Скопировано 👍');
+            hideTooltip();
+        });
+
+        clipboard.on('error', function(e) {
+            setTooltip('Фэйл!');
+            hideTooltip();
+        });
+
+    </script>
   </body>
 </html>

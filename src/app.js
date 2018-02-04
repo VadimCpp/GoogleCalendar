@@ -30,27 +30,28 @@ class App {
         document.getElementById('btn-load').addEventListener('click', function(e) {
             that.updateSchedule();
         });
-        
-        // TODO:
+
+        that.updateSchedule();
     }
+
 
     /**
      * Update the schedule.
      * @public
      */
     updateSchedule() {
-        this.disableLoadButton();
+        this.disableButtons();
         this.displayProgress();
         this.hideError();
 
         this._googleCalendar.load((success) => {
             if (success) {
                 this.hideProgress();
-                this.enableLoadButton();
+                this.enableButtons();
                 this.displayData();
             } else {
                 this.hideProgress();
-                this.enableLoadButton();
+                this.enableButtons();
                 this.displayError();
             }
         });
@@ -59,15 +60,17 @@ class App {
     /**
      * @public
      */
-    disableLoadButton() {
+    disableButtons() {
         document.getElementById('btn-load').classList.add('disabled');
+        document.getElementById('btn-copy').classList.add('disabled');
     }
 
     /**
      * @public
      */
-    enableLoadButton() {
+    enableButtons() {
         document.getElementById('btn-load').classList.remove('disabled');
+        document.getElementById('btn-copy').classList.remove('disabled');
     }
 
     /**

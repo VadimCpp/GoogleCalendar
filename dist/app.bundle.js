@@ -119,7 +119,7 @@ var App = function () {
                 that.updateSchedule();
             });
 
-            // TODO:
+            that.updateSchedule();
         }
 
         /**
@@ -132,18 +132,18 @@ var App = function () {
         value: function updateSchedule() {
             var _this = this;
 
-            this.disableLoadButton();
+            this.disableButtons();
             this.displayProgress();
             this.hideError();
 
             this._googleCalendar.load(function (success) {
                 if (success) {
                     _this.hideProgress();
-                    _this.enableLoadButton();
+                    _this.enableButtons();
                     _this.displayData();
                 } else {
                     _this.hideProgress();
-                    _this.enableLoadButton();
+                    _this.enableButtons();
                     _this.displayError();
                 }
             });
@@ -154,9 +154,10 @@ var App = function () {
          */
 
     }, {
-        key: 'disableLoadButton',
-        value: function disableLoadButton() {
+        key: 'disableButtons',
+        value: function disableButtons() {
             document.getElementById('btn-load').classList.add('disabled');
+            document.getElementById('btn-copy').classList.add('disabled');
         }
 
         /**
@@ -164,9 +165,10 @@ var App = function () {
          */
 
     }, {
-        key: 'enableLoadButton',
-        value: function enableLoadButton() {
+        key: 'enableButtons',
+        value: function enableButtons() {
             document.getElementById('btn-load').classList.remove('disabled');
+            document.getElementById('btn-copy').classList.remove('disabled');
         }
 
         /**
@@ -478,6 +480,8 @@ var SimpleView = function () {
       for (i in upcomingResult) {
         innerHTML += this._transformToParagraph(upcomingResult[i]);
       }
+
+      innerHTML += '<p> Подробнее на сайте ➡️: <a href="http://events4friends.vadimcpp.ru/">http://events4friends.vadimcpp.ru/</a> </p>';
 
       element.innerHTML = innerHTML;
     }
