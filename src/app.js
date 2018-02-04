@@ -1,5 +1,6 @@
 import GoogleCalendar from './model/googlecalendar.js';
 import SimpleView from './view/simpleview.js';
+import DetailedView from './view/detailedview.js';
 
 /**
  * Class representing an App.
@@ -109,6 +110,13 @@ class App {
         let simpleView = new SimpleView('simple-view');
 
         simpleView.render(this._googleCalendar.getData());
+
+        /**
+         * @type {!DetailedView}
+         */
+        let detailedView = new DetailedView('detailed-view');
+
+        detailedView.render(this._googleCalendar.getData());
     }
 
 }
