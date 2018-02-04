@@ -492,7 +492,7 @@ var SimpleView = function () {
         innerHTML += this._transformToParagraph(upcomingResult[i]);
       }
 
-      innerHTML += '<p> Подробнее на сайте ➡️: <a href="http://events4friends.vadimcpp.ru/">http://events4friends.vadimcpp.ru/</a> </p>';
+      innerHTML += '<p> Подробнее на сайте ➡️  <a href="http://events4friends.vadimcpp.ru/">http://events4friends.vadimcpp.ru/</a> </p>';
 
       element.innerHTML = innerHTML;
     }
@@ -843,7 +843,7 @@ var DetailedView = function () {
       var innerHTML = '<h1 class="h2"> Подробно </h1>';
 
       for (i in upcomingResult) {
-        innerHTML += this._transformToParagraph(upcomingResult[i]);
+        innerHTML += this._transformToArticle(upcomingResult[i]);
       }
 
       element.innerHTML = innerHTML;
@@ -901,24 +901,26 @@ var DetailedView = function () {
      */
 
   }, {
-    key: '_transformToParagraph',
-    value: function _transformToParagraph(event) {
+    key: '_transformToArticle',
+    value: function _transformToArticle(event) {
       /**
        * @type {!string}
        */
-      var retVal = '<p>';
+      var retVal = '<article>';
+
+      retVal += '<h2 class="h4 mb-0 mt-5">' + '«' + event.summary + '»' + '</h2>';
+      retVal += '<hr class="mb-1 mt-1">';
 
       /**
        * @type {!Array}
        */
       var dateStart = this._getDateInfo(event.start.dateTime || event.start.date);
 
-      retVal += this._getSimpleFormattedDate(dateStart);;
-      retVal += ' － ';
-      retVal += '«' + event.summary + '»';
-      retVal += ', ';
+      retVal += this._getFullFormattedDate(dateStart);
 
-      retVal += this._getSimpleLocation(event.location || ''), retVal += '</p>';
+      retVal += '<p>' + event.description + '</p>';
+
+      retVal += this._getFullLocation(event.location || ''), retVal += '</article>';
 
       return retVal;
     }
@@ -942,26 +944,26 @@ var DetailedView = function () {
       return [date.getDate(), date.getMonth(), date.getFullYear(), date.getHours(), date.getMinutes(), 0, 0];
     }
   }, {
-    key: '_getSimpleFormattedDate',
+    key: '_getFullFormattedDate',
 
 
     /**
      * @type {!Array} dateStart
-     * @return {!string} - date, month, day, time
+     * @return {!string} - date, month, year, day, time
      * @private
      */
-    value: function _getSimpleFormattedDate(dateStart) {
+    value: function _getFullFormattedDate(dateStart) {
       /**
        * @type {!string}
        */
-      var formattedTime = '🕗&nbsp;&nbsp;' + this._getFormattedTime24(dateStart);
+      var formattedTime = ' в ' + this._getFormattedTime24(dateStart);
 
       /**
        * @type {!string}
        */
       var dayNameStart = this._getDayNameFormatted(dateStart);
 
-      return '📅&nbsp;&nbsp;' + dateStart[0] + ' ' + this._getMonthName(dateStart[1]) + ', ' + dayNameStart + ' ' + formattedTime;
+      return '<p>' + dateStart[0] + ' ' + this._getMonthName(dateStart[1]) + ' ' + dateStart[2] + ', ' + dayNameStart + ' ' + formattedTime + '</p>';
     }
 
     /**
@@ -1053,7 +1055,7 @@ var DetailedView = function () {
       return monthNames[month];
     }
   }, {
-    key: '_getSimpleLocation',
+    key: '_getFullLocation',
 
 
     /**
@@ -1061,23 +1063,8 @@ var DetailedView = function () {
      * @return {!string}
      * @private
      */
-    value: function _getSimpleLocation(location) {
-
-      /**
-       * @type {!string}
-       */
-      var simpleLocation = '';
-
-      /**
-       * @type {!number}
-       */
-      var secondCommaPosition = location.indexOf(',', location.indexOf(',', 0) + 1);
-
-      if (secondCommaPosition > 0) {
-        simpleLocation = location.substr(0, secondCommaPosition);
-      }
-
-      return '📍&nbsp;&nbsp;' + simpleLocation;
+    value: function _getFullLocation(location) {
+      return '<p>' + '📍&nbsp;&nbsp;' + location + '</p>';
     }
   }]);
 
