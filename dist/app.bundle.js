@@ -72,15 +72,15 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _googlecalendar = __webpack_require__(4);
+var _googlecalendar = __webpack_require__(1);
 
 var _googlecalendar2 = _interopRequireDefault(_googlecalendar);
 
-var _simpleview = __webpack_require__(5);
+var _simpleview = __webpack_require__(2);
 
 var _simpleview2 = _interopRequireDefault(_simpleview);
 
-var _detailedview = __webpack_require__(6);
+var _detailedview = __webpack_require__(3);
 
 var _detailedview2 = _interopRequireDefault(_detailedview);
 
@@ -260,10 +260,7 @@ window.onload = function () {
 };
 
 /***/ }),
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -381,7 +378,7 @@ exports.default = GoogleCalendar;
 ;
 
 /***/ }),
-/* 5 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -735,7 +732,7 @@ var SimpleView = function () {
 exports.default = SimpleView;
 
 /***/ }),
-/* 6 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -906,10 +903,9 @@ var DetailedView = function () {
       /**
        * @type {!string}
        */
-      var retVal = '<article>';
-
-      retVal += '<h2 class="h4 mb-0 mt-5">' + '«' + event.summary + '»' + '</h2>';
-      retVal += '<hr class="mb-1 mt-1">';
+      var retVal = '<article class="mt-5 mb-5">';
+      retVal += '<h2 class="h4 mb-0">' + '«' + event.summary + '»' + '</h2>';
+      retVal += '<div>';
 
       /**
        * @type {!Array}
@@ -920,7 +916,8 @@ var DetailedView = function () {
 
       retVal += '<p>' + event.description + '</p>';
 
-      retVal += this._getFullLocation(event.location || ''), retVal += '</article>';
+      retVal += this._getFullLocation(event.location || ''), retVal += '</div>';
+      retVal += '</article>';
 
       return retVal;
     }

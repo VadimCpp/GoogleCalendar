@@ -140,10 +140,9 @@ export default class DetailedView {
         /**
          * @type {!string}
          */
-        let retVal = '<article>';
-
-        retVal += '<h2 class="h4 mb-0 mt-5">' + '«' + event.summary + '»' + '</h2>';
-        retVal += '<hr class="mb-1 mt-1">';
+        let retVal = '<article class="mt-5 mb-5">';
+        retVal += '<h2 class="h4 mb-0">' + '«' + event.summary + '»' + '</h2>';
+        retVal += '<div>';
 
         /**
          * @type {!Array}
@@ -156,6 +155,7 @@ export default class DetailedView {
 
         retVal += this._getFullLocation(event.location || ''),
 
+        retVal += '</div>';
         retVal += '</article>';
 
         return retVal;
