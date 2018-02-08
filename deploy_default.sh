@@ -2,8 +2,8 @@
 
 # Скрипт выкладывает данные на сервак
 
-LOGIN="root"
-HOST="46.101.171.48"
+LOGIN="insert login"
+HOST="insert host"
 
 scp -r ./dist $LOGIN@$HOST:/var/www/events4friends.ru.tmp
 scp -r ./img $LOGIN@$HOST:/var/www/events4friends.ru.tmp
