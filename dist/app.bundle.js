@@ -489,7 +489,7 @@ var SimpleView = function () {
         innerHTML += this._transformToParagraph(upcomingResult[i]);
       }
 
-      innerHTML += '<p> Подробнее на сайте ➡️  <a href="http://events4friends.vadimcpp.ru/">http://events4friends.vadimcpp.ru/</a> </p>';
+      innerHTML += '<p> Подробнее на сайте ➡️  <a href="http://events4friends.ru/">http://events4friends.ru/</a> </p>';
 
       element.innerHTML = innerHTML;
     }
