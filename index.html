@@ -15,6 +15,9 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/fullcalendar.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/fullcalendar.print.css" rel="stylesheet">
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style type="text/css">
 
@@ -202,8 +205,13 @@
 
     <main class="container mt-3 mb-3">
 
+        <!-- Секция с календарем fullcalendar.io -->
+        <section class="container__inner container__inner_top_radius p-3" id="view-fullcalendar">
+            <div id='fullcalendar'></div>
+        </section>
+
         <!-- Секция с панелью настроек -->
-        <section class="container__inner container__inner_top_radius p-3 clear-both">
+        <section class="container__inner p-3 clear-both">
             <button type="button" class="btn btn-warning" id="btn-load">Обновить</button>
             <button 
                 type="button" 
@@ -261,9 +269,9 @@
     <script src="dist/app.bundle.js"></script>
 
     <script
-        src="//code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
-        crossorigin="anonymous"></script>
+      src="http://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js" integrity="sha384-feJI7QwhOS+hwpX2zkaeJQjeiwlhOP+SdQDqhgvvo1DsjtiSQByFdThsxO669S2D" crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
 
@@ -305,6 +313,25 @@
             hideTooltip();
         });
 
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/fullcalendar.min.js'></script>    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/gcal.min.js'></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            // page is now ready, initialize the calendar...
+
+            $('#fullcalendar').fullCalendar({
+                googleCalendarApiKey: 'AIzaSyBOXnnT1F-h9s1FP3063BQ_o0KtD7Y0DPs',
+                events: {
+                    googleCalendarId: 'dveenjcu4k5ktd3k8pv4iul2bk@group.calendar.google.com'
+                }
+            })
+
+        });        
     </script>
   </body>
 </html>
