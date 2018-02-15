@@ -63,6 +63,7 @@ class App {
                 this.hideProgress();
                 this.enableButtons();
                 this.displayData();
+                this.displayFullcalendarEvents();
             } else {
                 this.hideProgress();
                 this.enableButtons();
@@ -132,6 +133,11 @@ class App {
         detailedView.render(this._googleCalendar.getData());
     }
 
+    displayFullcalendarEvents() {
+        console.warn('Not inlemented');
+
+        // TODO: implement here
+    }
 }
 
 /**

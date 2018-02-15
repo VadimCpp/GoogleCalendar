@@ -158,6 +158,7 @@ var App = function () {
                     _this.hideProgress();
                     _this.enableButtons();
                     _this.displayData();
+                    _this.displayFullcalendarEvents();
                 } else {
                     _this.hideProgress();
                     _this.enableButtons();
@@ -243,6 +244,13 @@ var App = function () {
             var detailedView = new _detailedview2.default('detailed-view');
 
             detailedView.render(this._googleCalendar.getData());
+        }
+    }, {
+        key: 'displayFullcalendarEvents',
+        value: function displayFullcalendarEvents() {
+            console.warn('Not inlemented');
+
+            // TODO: implement here
         }
     }]);
 
