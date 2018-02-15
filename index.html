@@ -265,9 +265,6 @@
 
     </main>
 
-    <!-- App element to be created here -->
-    <script src="dist/app.bundle.js"></script>
-
     <script
       src="//code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -319,19 +316,8 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/fullcalendar.min.js'></script>    
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/gcal.min.js'></script>
 
-    <script type="text/javascript">
-        $(document).ready(function() {
+    <!-- App element to be created here -->
+    <script src="dist/app.bundle.js"></script>
 
-            // page is now ready, initialize the calendar...
-
-            $('#fullcalendar').fullCalendar({
-                googleCalendarApiKey: 'AIzaSyBOXnnT1F-h9s1FP3063BQ_o0KtD7Y0DPs',
-                events: {
-                    googleCalendarId: 'dveenjcu4k5ktd3k8pv4iul2bk@group.calendar.google.com'
-                }
-            })
-
-        });        
-    </script>
   </body>
 </html>

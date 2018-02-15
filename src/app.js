@@ -17,6 +17,19 @@ class App {
          * @private
          */
         this._googleCalendar = new GoogleCalendar({ apiKey, calendarId });
+
+        /**
+         * @type {!FullCalendar}
+         * @private
+         */
+        this._fullCalendar = $('#fullcalendar').fullCalendar({
+            googleCalendarApiKey: 'AIzaSyBOXnnT1F-h9s1FP3063BQ_o0KtD7Y0DPs',
+            events: {
+                googleCalendarId: 'dveenjcu4k5ktd3k8pv4iul2bk@group.calendar.google.com'
+            }
+        });
+
+        console.log('this._fullCalendar', this._fullCalendar);
     }
 
 
@@ -136,8 +149,9 @@ let calendarId = "dveenjcu4k5ktd3k8pv4iul2bk@group.calendar.google.com";
 /**
  * @type {!App}
  */
-let app = new App({ apiKey, calendarId });
+let app;
 
 window.onload = () => {
+    app = new App({ apiKey, calendarId });
     app.start();
 };

@@ -93,147 +93,160 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 var App = function () {
 
-  /**
-   * @param {{ apiKey: !string, calendarId: !string }} config
-   * @public
-   */
-  function App(config) {
-    _classCallCheck(this, App);
-
     /**
-     * @type {!GoogleCalendar}
-     * @private
+     * @param {{ apiKey: !string, calendarId: !string }} config
+     * @public
      */
-    this._googleCalendar = new _googlecalendar2.default({ apiKey: apiKey, calendarId: calendarId });
-  }
+    function App(config) {
+        _classCallCheck(this, App);
 
-  /**
-   * Request Google Calendar data and render information.
-   *   
-   * @public
-   */
+        /**
+         * @type {!GoogleCalendar}
+         * @private
+         */
+        this._googleCalendar = new _googlecalendar2.default({ apiKey: apiKey, calendarId: calendarId });
 
+        /**
+         * @type {!FullCalendar}
+         * @private
+         */
+        this._fullCalendar = $('#fullcalendar').fullCalendar({
+            googleCalendarApiKey: 'AIzaSyBOXnnT1F-h9s1FP3063BQ_o0KtD7Y0DPs',
+            events: {
+                googleCalendarId: 'dveenjcu4k5ktd3k8pv4iul2bk@group.calendar.google.com'
+            }
+        });
 
-  _createClass(App, [{
-    key: 'start',
-    value: function start() {
-      var that = this;
-
-      document.getElementById('btn-load').addEventListener('click', function (e) {
-        that.updateSchedule();
-      });
-
-      that.updateSchedule();
+        console.log('this._fullCalendar', this._fullCalendar);
     }
 
     /**
-     * Update the schedule.
+     * Request Google Calendar data and render information.
+     *   
      * @public
      */
 
-  }, {
-    key: 'updateSchedule',
-    value: function updateSchedule() {
-      var _this = this;
 
-      this.disableButtons();
-      this.displayProgress();
-      this.hideError();
+    _createClass(App, [{
+        key: 'start',
+        value: function start() {
+            var that = this;
 
-      this._googleCalendar.load(function (success) {
-        if (success) {
-          _this.hideProgress();
-          _this.enableButtons();
-          _this.displayData();
-        } else {
-          _this.hideProgress();
-          _this.enableButtons();
-          _this.displayError();
+            document.getElementById('btn-load').addEventListener('click', function (e) {
+                that.updateSchedule();
+            });
+
+            that.updateSchedule();
         }
-      });
-    }
 
-    /**
-     * @public
-     */
+        /**
+         * Update the schedule.
+         * @public
+         */
 
-  }, {
-    key: 'disableButtons',
-    value: function disableButtons() {
-      document.getElementById('btn-load').classList.add('disabled');
-      document.getElementById('btn-copy').classList.add('disabled');
-    }
+    }, {
+        key: 'updateSchedule',
+        value: function updateSchedule() {
+            var _this = this;
 
-    /**
-     * @public
-     */
+            this.disableButtons();
+            this.displayProgress();
+            this.hideError();
 
-  }, {
-    key: 'enableButtons',
-    value: function enableButtons() {
-      document.getElementById('btn-load').classList.remove('disabled');
-      document.getElementById('btn-copy').classList.remove('disabled');
-    }
+            this._googleCalendar.load(function (success) {
+                if (success) {
+                    _this.hideProgress();
+                    _this.enableButtons();
+                    _this.displayData();
+                } else {
+                    _this.hideProgress();
+                    _this.enableButtons();
+                    _this.displayError();
+                }
+            });
+        }
 
-    /**
-     * @public
-     */
+        /**
+         * @public
+         */
 
-  }, {
-    key: 'displayProgress',
-    value: function displayProgress() {
-      document.getElementById('view-progress').classList.remove('container_hidden');
-    }
+    }, {
+        key: 'disableButtons',
+        value: function disableButtons() {
+            document.getElementById('btn-load').classList.add('disabled');
+            document.getElementById('btn-copy').classList.add('disabled');
+        }
 
-    /**
-     * @public
-     */
+        /**
+         * @public
+         */
 
-  }, {
-    key: 'hideProgress',
-    value: function hideProgress() {
-      document.getElementById('view-progress').classList.add('container_hidden');
-    }
+    }, {
+        key: 'enableButtons',
+        value: function enableButtons() {
+            document.getElementById('btn-load').classList.remove('disabled');
+            document.getElementById('btn-copy').classList.remove('disabled');
+        }
 
-    /**
-     * @public
-     */
+        /**
+         * @public
+         */
 
-  }, {
-    key: 'displayError',
-    value: function displayError() {
-      document.getElementById('view-error').classList.remove('container_hidden');
-    }
+    }, {
+        key: 'displayProgress',
+        value: function displayProgress() {
+            document.getElementById('view-progress').classList.remove('container_hidden');
+        }
 
-    /**
-     * @public
-     */
+        /**
+         * @public
+         */
 
-  }, {
-    key: 'hideError',
-    value: function hideError() {
-      document.getElementById('view-error').classList.add('container_hidden');
-    }
-  }, {
-    key: 'displayData',
-    value: function displayData() {
-      /**
-       * @type {!SimpleView}
-       */
-      var simpleView = new _simpleview2.default('simple-view');
+    }, {
+        key: 'hideProgress',
+        value: function hideProgress() {
+            document.getElementById('view-progress').classList.add('container_hidden');
+        }
 
-      simpleView.render(this._googleCalendar.getData());
+        /**
+         * @public
+         */
 
-      /**
-       * @type {!DetailedView}
-       */
-      var detailedView = new _detailedview2.default('detailed-view');
+    }, {
+        key: 'displayError',
+        value: function displayError() {
+            document.getElementById('view-error').classList.remove('container_hidden');
+        }
 
-      detailedView.render(this._googleCalendar.getData());
-    }
-  }]);
+        /**
+         * @public
+         */
 
-  return App;
+    }, {
+        key: 'hideError',
+        value: function hideError() {
+            document.getElementById('view-error').classList.add('container_hidden');
+        }
+    }, {
+        key: 'displayData',
+        value: function displayData() {
+            /**
+             * @type {!SimpleView}
+             */
+            var simpleView = new _simpleview2.default('simple-view');
+
+            simpleView.render(this._googleCalendar.getData());
+
+            /**
+             * @type {!DetailedView}
+             */
+            var detailedView = new _detailedview2.default('detailed-view');
+
+            detailedView.render(this._googleCalendar.getData());
+        }
+    }]);
+
+    return App;
 }();
 
 /**
@@ -253,10 +266,11 @@ var calendarId = "dveenjcu4k5ktd3k8pv4iul2bk@group.calendar.google.com";
 /**
  * @type {!App}
  */
-var app = new App({ apiKey: apiKey, calendarId: calendarId });
+var app = void 0;
 
 window.onload = function () {
-  app.start();
+    app = new App({ apiKey: apiKey, calendarId: calendarId });
+    app.start();
 };
 
 /***/ }),
