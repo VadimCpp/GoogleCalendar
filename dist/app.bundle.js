@@ -1188,19 +1188,33 @@ var CalendarView = function () {
     key: 'dayRender',
     value: function dayRender(date, cell, el) {
 
-      console.log('Render on el: ', el);
-
-      console.log('Render on: ' + date.format());
-
-      console.log('Render cell: ', cell);
+      /**
+       * @type {?boolean}
+       */
+      var eventsFound = false;
 
       /**
-       * @type {?boolean} data
+       * @type {!Array}
        */
-      var eventsFound = true;
+      var events = [];
 
-      // TODO: 
-      // implement
+      /**
+       * @type {!number}
+       */
+      var i = void 0;
+
+      for (i = 0; i < this._data.items.length; i++) {
+
+        /**
+         * @type {!Object}
+         */
+        var e = this._data.items[i];
+
+        if (moment(e.start.dateTime).format("YYYY-MM-DD") == date.format()) {
+          events.push(e);
+          eventsFound = true;
+        }
+      }
 
       if (eventsFound) {
         $(cell).css('position', 'relative');

@@ -78,20 +78,33 @@ export default class CalendarView {
      */
     dayRender(date, cell, el) {
 
-
-        console.log('Render on el: ', el);
-
-        console.log('Render on: ' + date.format());
-
-        console.log('Render cell: ', cell);
+        /**
+         * @type {?boolean}
+         */
+        let eventsFound = false;
 
         /**
-         * @type {?boolean} data
+         * @type {!Array}
          */
-        let eventsFound = true;
+        let events = [];
 
-        // TODO: 
-        // implement
+        /**
+         * @type {!number}
+         */
+        let i;
+
+        for(i = 0; i < this._data.items.length; i++) {
+            
+            /**
+             * @type {!Object}
+             */
+            let e = this._data.items[i];
+
+            if (moment(e.start.dateTime).format("YYYY-MM-DD") == date.format()) {
+                events.push(e);
+                eventsFound = true;
+            }
+        }
 
         if (eventsFound) {
             $(cell).css('position', 'relative');
