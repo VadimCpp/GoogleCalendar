@@ -1,6 +1,7 @@
 import GoogleCalendar from './model/googlecalendar.js';
 import SimpleView from './view/simpleview.js';
 import DetailedView from './view/detailedview.js';
+import CalendarView from './view/calendarview.js';
 
 /**
  * Class representing an App.
@@ -12,26 +13,15 @@ class App {
      * @public
      */
     constructor(config) {
+
+        let that = this;
+
         /**
          * @type {!GoogleCalendar}
          * @private
          */
         this._googleCalendar = new GoogleCalendar({ apiKey, calendarId });
-
-        /**
-         * @type {!FullCalendar}
-         * @private
-         */
-        this._fullCalendar = $('#fullcalendar').fullCalendar({
-            googleCalendarApiKey: 'AIzaSyBOXnnT1F-h9s1FP3063BQ_o0KtD7Y0DPs',
-            events: {
-                googleCalendarId: 'dveenjcu4k5ktd3k8pv4iul2bk@group.calendar.google.com'
-            }
-        });
-
-        console.log('this._fullCalendar', this._fullCalendar);
     }
-
 
     /**
      * Request Google Calendar data and render information.
@@ -63,7 +53,6 @@ class App {
                 this.hideProgress();
                 this.enableButtons();
                 this.displayData();
-                this.displayFullcalendarEvents();
             } else {
                 this.hideProgress();
                 this.enableButtons();
@@ -131,12 +120,13 @@ class App {
         let detailedView = new DetailedView('detailed-view');
 
         detailedView.render(this._googleCalendar.getData());
-    }
 
-    displayFullcalendarEvents() {
-        console.warn('Not inlemented');
+        /**
+         * @type {!CalendarView}
+         */
+        let calendarView = new CalendarView('calendar-view');
 
-        // TODO: implement here
+        calendarView.render(this._googleCalendar.getData());
     }
 }
 

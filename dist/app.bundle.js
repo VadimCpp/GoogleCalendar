@@ -84,6 +84,10 @@ var _detailedview = __webpack_require__(3);
 
 var _detailedview2 = _interopRequireDefault(_detailedview);
 
+var _calendarview = __webpack_require__(4);
+
+var _calendarview2 = _interopRequireDefault(_calendarview);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -93,168 +97,156 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 var App = function () {
 
+  /**
+   * @param {{ apiKey: !string, calendarId: !string }} config
+   * @public
+   */
+  function App(config) {
+    _classCallCheck(this, App);
+
+    var that = this;
+
     /**
-     * @param {{ apiKey: !string, calendarId: !string }} config
-     * @public
+     * @type {!GoogleCalendar}
+     * @private
      */
-    function App(config) {
-        _classCallCheck(this, App);
+    this._googleCalendar = new _googlecalendar2.default({ apiKey: apiKey, calendarId: calendarId });
+  }
 
-        /**
-         * @type {!GoogleCalendar}
-         * @private
-         */
-        this._googleCalendar = new _googlecalendar2.default({ apiKey: apiKey, calendarId: calendarId });
+  /**
+   * Request Google Calendar data and render information.
+   *   
+   * @public
+   */
 
-        /**
-         * @type {!FullCalendar}
-         * @private
-         */
-        this._fullCalendar = $('#fullcalendar').fullCalendar({
-            googleCalendarApiKey: 'AIzaSyBOXnnT1F-h9s1FP3063BQ_o0KtD7Y0DPs',
-            events: {
-                googleCalendarId: 'dveenjcu4k5ktd3k8pv4iul2bk@group.calendar.google.com'
-            }
-        });
 
-        console.log('this._fullCalendar', this._fullCalendar);
+  _createClass(App, [{
+    key: 'start',
+    value: function start() {
+      var that = this;
+
+      document.getElementById('btn-load').addEventListener('click', function (e) {
+        that.updateSchedule();
+      });
+
+      that.updateSchedule();
     }
 
     /**
-     * Request Google Calendar data and render information.
-     *   
+     * Update the schedule.
      * @public
      */
 
+  }, {
+    key: 'updateSchedule',
+    value: function updateSchedule() {
+      var _this = this;
 
-    _createClass(App, [{
-        key: 'start',
-        value: function start() {
-            var that = this;
+      this.disableButtons();
+      this.displayProgress();
+      this.hideError();
 
-            document.getElementById('btn-load').addEventListener('click', function (e) {
-                that.updateSchedule();
-            });
-
-            that.updateSchedule();
+      this._googleCalendar.load(function (success) {
+        if (success) {
+          _this.hideProgress();
+          _this.enableButtons();
+          _this.displayData();
+        } else {
+          _this.hideProgress();
+          _this.enableButtons();
+          _this.displayError();
         }
+      });
+    }
 
-        /**
-         * Update the schedule.
-         * @public
-         */
+    /**
+     * @public
+     */
 
-    }, {
-        key: 'updateSchedule',
-        value: function updateSchedule() {
-            var _this = this;
+  }, {
+    key: 'disableButtons',
+    value: function disableButtons() {
+      document.getElementById('btn-load').classList.add('disabled');
+      document.getElementById('btn-copy').classList.add('disabled');
+    }
 
-            this.disableButtons();
-            this.displayProgress();
-            this.hideError();
+    /**
+     * @public
+     */
 
-            this._googleCalendar.load(function (success) {
-                if (success) {
-                    _this.hideProgress();
-                    _this.enableButtons();
-                    _this.displayData();
-                    _this.displayFullcalendarEvents();
-                } else {
-                    _this.hideProgress();
-                    _this.enableButtons();
-                    _this.displayError();
-                }
-            });
-        }
+  }, {
+    key: 'enableButtons',
+    value: function enableButtons() {
+      document.getElementById('btn-load').classList.remove('disabled');
+      document.getElementById('btn-copy').classList.remove('disabled');
+    }
 
-        /**
-         * @public
-         */
+    /**
+     * @public
+     */
 
-    }, {
-        key: 'disableButtons',
-        value: function disableButtons() {
-            document.getElementById('btn-load').classList.add('disabled');
-            document.getElementById('btn-copy').classList.add('disabled');
-        }
+  }, {
+    key: 'displayProgress',
+    value: function displayProgress() {
+      document.getElementById('view-progress').classList.remove('container_hidden');
+    }
 
-        /**
-         * @public
-         */
+    /**
+     * @public
+     */
 
-    }, {
-        key: 'enableButtons',
-        value: function enableButtons() {
-            document.getElementById('btn-load').classList.remove('disabled');
-            document.getElementById('btn-copy').classList.remove('disabled');
-        }
+  }, {
+    key: 'hideProgress',
+    value: function hideProgress() {
+      document.getElementById('view-progress').classList.add('container_hidden');
+    }
 
-        /**
-         * @public
-         */
+    /**
+     * @public
+     */
 
-    }, {
-        key: 'displayProgress',
-        value: function displayProgress() {
-            document.getElementById('view-progress').classList.remove('container_hidden');
-        }
+  }, {
+    key: 'displayError',
+    value: function displayError() {
+      document.getElementById('view-error').classList.remove('container_hidden');
+    }
 
-        /**
-         * @public
-         */
+    /**
+     * @public
+     */
 
-    }, {
-        key: 'hideProgress',
-        value: function hideProgress() {
-            document.getElementById('view-progress').classList.add('container_hidden');
-        }
+  }, {
+    key: 'hideError',
+    value: function hideError() {
+      document.getElementById('view-error').classList.add('container_hidden');
+    }
+  }, {
+    key: 'displayData',
+    value: function displayData() {
+      /**
+       * @type {!SimpleView}
+       */
+      var simpleView = new _simpleview2.default('simple-view');
 
-        /**
-         * @public
-         */
+      simpleView.render(this._googleCalendar.getData());
 
-    }, {
-        key: 'displayError',
-        value: function displayError() {
-            document.getElementById('view-error').classList.remove('container_hidden');
-        }
+      /**
+       * @type {!DetailedView}
+       */
+      var detailedView = new _detailedview2.default('detailed-view');
 
-        /**
-         * @public
-         */
+      detailedView.render(this._googleCalendar.getData());
 
-    }, {
-        key: 'hideError',
-        value: function hideError() {
-            document.getElementById('view-error').classList.add('container_hidden');
-        }
-    }, {
-        key: 'displayData',
-        value: function displayData() {
-            /**
-             * @type {!SimpleView}
-             */
-            var simpleView = new _simpleview2.default('simple-view');
+      /**
+       * @type {!CalendarView}
+       */
+      var calendarView = new _calendarview2.default('calendar-view');
 
-            simpleView.render(this._googleCalendar.getData());
+      calendarView.render(this._googleCalendar.getData());
+    }
+  }]);
 
-            /**
-             * @type {!DetailedView}
-             */
-            var detailedView = new _detailedview2.default('detailed-view');
-
-            detailedView.render(this._googleCalendar.getData());
-        }
-    }, {
-        key: 'displayFullcalendarEvents',
-        value: function displayFullcalendarEvents() {
-            console.warn('Not inlemented');
-
-            // TODO: implement here
-        }
-    }]);
-
-    return App;
+  return App;
 }();
 
 /**
@@ -277,8 +269,8 @@ var calendarId = "dveenjcu4k5ktd3k8pv4iul2bk@group.calendar.google.com";
 var app = void 0;
 
 window.onload = function () {
-    app = new App({ apiKey: apiKey, calendarId: calendarId });
-    app.start();
+  app = new App({ apiKey: apiKey, calendarId: calendarId });
+  app.start();
 };
 
 /***/ }),
@@ -1091,6 +1083,137 @@ var DetailedView = function () {
 }();
 
 exports.default = DetailedView;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Class CalendarView renders full calendar.
+ */
+var CalendarView = function () {
+
+  /**
+   * @param {!string} elementId
+   * @public
+   */
+  function CalendarView(elementId) {
+    _classCallCheck(this, CalendarView);
+
+    /**
+     * @type {!string}
+     * @private
+     */
+    this._elementId = elementId;
+
+    /**
+     * @type {?Object} data
+     * @private
+     */
+    this._data = null;
+  }
+
+  /**
+   * @param {!Object} data
+   * @public
+   */
+
+
+  _createClass(CalendarView, [{
+    key: 'render',
+    value: function render(data) {
+      /**
+       * @type {!CalendarView}
+       */
+      var that = this;
+
+      that._data = data;
+
+      /**
+       * Init and render fullcalendar.io
+       */
+      $('#calendar-view').fullCalendar({
+        dayClick: function dayClick(date, jsEvent, view) {
+          that.dayClick(date, jsEvent, view, this);
+        },
+        dayRender: function dayRender(date, cell) {
+          that.dayRender(date, cell, this);
+        }
+      });
+    }
+
+    /**
+     * @param {!Object} data
+     * @param {!Object} jsEvent
+     * @param {!Object} view
+     * @param {!Object} el
+     * @public
+     */
+
+  }, {
+    key: 'dayClick',
+    value: function dayClick(date, jsEvent, view, el) {
+      console.log('Clicked on el: ', el);
+
+      console.log('Clicked on: ' + date.format());
+
+      console.log('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+
+      console.log('Current view: ' + view.name);
+
+      // change the day's background color just for fun
+      // $(el).css('background-color', 'red');
+      // TODO:
+    }
+
+    /**
+     * @param {!Object} data
+     * @param {!Object} cell
+     * @param {!Object} el
+     * @public
+     */
+
+  }, {
+    key: 'dayRender',
+    value: function dayRender(date, cell, el) {
+
+      console.log('Render on el: ', el);
+
+      console.log('Render on: ' + date.format());
+
+      console.log('Render cell: ', cell);
+
+      /**
+       * @type {?boolean} data
+       */
+      var eventsFound = true;
+
+      // TODO: 
+      // implement
+
+      if (eventsFound) {
+        $(cell).css('position', 'relative');
+        $(cell).html('<div class="event">🍺</div>');
+      }
+    }
+  }]);
+
+  return CalendarView;
+}();
+
+exports.default = CalendarView;
+;
 
 /***/ })
 /******/ ]);

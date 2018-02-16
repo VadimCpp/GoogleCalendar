@@ -16,7 +16,6 @@
     <meta name="theme-color" content="#ffffff">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/fullcalendar.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/fullcalendar.print.css" rel="stylesheet">
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style type="text/css">
@@ -164,6 +163,17 @@
         }
 
         /*********************************/
+        /* CALENDAR SECTION              */
+        /*********************************/
+
+        .event {
+            bottom: 3px;
+            display: inline-block;
+            left: 5px;
+            position: absolute;
+        }
+
+        /*********************************/
         /* ERROR SECTION                 */
         /*********************************/
 
@@ -205,13 +215,9 @@
 
     <main class="container mt-3 mb-3">
 
-        <!-- Секция с календарем fullcalendar.io -->
-        <section class="container__inner container__inner_top_radius p-3" id="view-fullcalendar">
-            <div id='fullcalendar'></div>
-        </section>
 
         <!-- Секция с панелью настроек -->
-        <section class="container__inner p-3 clear-both">
+        <section class="container__inner container__inner_top_radius p-3 clear-both">
             <button type="button" class="btn btn-warning" id="btn-load">Обновить</button>
             <button 
                 type="button" 
@@ -233,6 +239,11 @@
             <span class="container__inner_error-message">
                 Ошибка загрузки данных. :(
             </span>
+        </section>
+
+        <!-- Секция с календарем fullcalendar.io -->
+        <section class="container__inner p-3" id="calendar-view">
+            
         </section>
 
         <!-- Секция с событиями -->
@@ -314,7 +325,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/fullcalendar.min.js'></script>    
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/gcal.min.js'></script>
+    <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/gcal.min.js'></script> -->
 
     <!-- App element to be created here -->
     <script src="dist/app.bundle.js"></script>
