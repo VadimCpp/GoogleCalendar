@@ -1140,86 +1140,14 @@ var CalendarView = function () {
 
       that._data = data;
 
-      /**
-       * Init and render fullcalendar.io
-       */
-      $('#calendar-view').fullCalendar({
-        dayClick: function dayClick(date, jsEvent, view) {
-          that.dayClick(date, jsEvent, view, this);
-        },
-        dayRender: function dayRender(date, cell) {
-          that.dayRender(date, cell, this);
-        }
-      });
-    }
-
-    /**
-     * @param {!Object} data
-     * @param {!Object} jsEvent
-     * @param {!Object} view
-     * @param {!Object} el
-     * @public
-     */
-
-  }, {
-    key: 'dayClick',
-    value: function dayClick(date, jsEvent, view, el) {
-      console.log('Clicked on el: ', el);
-
-      console.log('Clicked on: ' + date.format());
-
-      console.log('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-
-      console.log('Current view: ' + view.name);
-
-      // change the day's background color just for fun
-      // $(el).css('background-color', 'red');
-      // TODO:
-    }
-
-    /**
-     * @param {!Object} data
-     * @param {!Object} cell
-     * @param {!Object} el
-     * @public
-     */
-
-  }, {
-    key: 'dayRender',
-    value: function dayRender(date, cell, el) {
+      console.log('TEST');
+      console.log(data);
 
       /**
-       * @type {?boolean}
+       * Init and render Kendo UI calendar
        */
-      var eventsFound = false;
 
-      /**
-       * @type {!Array}
-       */
-      var events = [];
-
-      /**
-       * @type {!number}
-       */
-      var i = void 0;
-
-      for (i = 0; i < this._data.items.length; i++) {
-
-        /**
-         * @type {!Object}
-         */
-        var e = this._data.items[i];
-
-        if (moment(e.start.dateTime).format("YYYY-MM-DD") == date.format()) {
-          events.push(e);
-          eventsFound = true;
-        }
-      }
-
-      if (eventsFound) {
-        $(cell).css('position', 'relative');
-        $(cell).html('<div class="event">🍺</div>');
-      }
+      $('#calendar-view').kendoCalendar();
     }
   }]);
 

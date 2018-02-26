@@ -15,7 +15,18 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
+    <!-- /*********************************/ -->
+    <!-- /* LIBS STYLES                   */ -->
+    <!-- /*********************************/ -->
+
+    <!-- 1. Kendo UI Core -->
+    <link href="http://kendo.cdn.telerik.com/2014.2.716/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="http://kendo.cdn.telerik.com/2014.2.716/styles/kendo.default.min.css" rel="stylesheet" />
+
+    <!-- 2. Bootstrap 4.0.0 -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- 3. Page custom -->
     <style type="text/css">
 
         /*********************************/
@@ -240,8 +251,8 @@
         </section>
 
         <!-- Секция с календарем Kendo UI Core -->
-        <section class="container__inner p-3" id="calendar-view">
-            
+        <section class="container__inner p-3">
+            <div id="calendar-view" class="mx-auto d-block"></div>
         </section>
 
         <!-- Секция с событиями -->
@@ -274,13 +285,27 @@
 
     </main>
 
+    <!-- /*********************************/ -->
+    <!-- /* LIBS JAVASCRIPT               */ -->
+    <!-- /*********************************/ -->
+
+    <!-- 1. jQuery 3.3.1 -->
     <script
       src="//code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
       crossorigin="anonymous"></script>
+
+    <!-- 2. Bootstrap 4.0.0 -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js" integrity="sha384-feJI7QwhOS+hwpX2zkaeJQjeiwlhOP+SdQDqhgvvo1DsjtiSQByFdThsxO669S2D" crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
 
+    <!-- 3. Kendo UI Core 2014.2.716 -->
+    <!-- <script src="http://kendo.cdn.telerik.com/2014.2.716/js/jquery.min.js"></script> -->
+    <script src="http://kendo.cdn.telerik.com/2014.2.716/js/kendo.ui.core.min.js"></script>
+    <script src="src/kendo-ui-core/kendo.messages.ru-RU.js"></script>
+    <script src="src/kendo-ui-core/kendo.culture.ru-RU.js"></script>
+
+    <!-- 4. Custom -->
     <script type="text/javascript">
 
         // Tooltip on click of a button:
@@ -321,7 +346,7 @@
 
     </script>
 
-    <!-- App element to be created here -->
+    <!-- 5. App -->
     <script src="dist/app.bundle.js"></script>
 
   </body>

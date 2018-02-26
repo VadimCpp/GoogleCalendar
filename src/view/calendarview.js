@@ -36,17 +36,14 @@ export default class CalendarView {
 
         that._data = data;
 
+        console.log('TEST');
+        console.log(data);
+
         /**
          * Init and render Kendo UI calendar
          */
-        // $('#calendar-view').fullCalendar({
-        //     dayClick: function(date, jsEvent, view) {
-        //         that.dayClick(date, jsEvent, view, this);
-        //     },
-        //     dayRender: function(date, cell) { 
-        //         that.dayRender(date, cell, this);
-        //     },
-        // });
+
+        $('#calendar-view').kendoCalendar();
     }
 
 };
