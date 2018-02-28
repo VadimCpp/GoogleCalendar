@@ -45,12 +45,8 @@ export default class CalendarView {
 
         that._data = data;
 
-        console.log('TEST');
-        console.log(data);
-
         let events = that.getEvents();
 
-        console.log('events', events)
         /**
          * Init and render Kendo UI calendar
          */
