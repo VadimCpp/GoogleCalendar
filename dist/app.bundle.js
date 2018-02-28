@@ -249,10 +249,7 @@ var App = function () {
 
       calendarView.render(that._googleCalendar.getData());
       calendarView.onDateChanged(function (date) {
-
-        console.log('[APP] date = ' + date);
-
-        // TODO: implement
+        simpleView.render(that._googleCalendar.getData(), date);
       });
     }
   }]);
@@ -437,17 +434,23 @@ var SimpleView = function () {
   }
 
   /**
-   * @param {!Object} data
+   * @param {Object} data
+   * @param {Date} date
    * @public
    */
 
 
   _createClass(SimpleView, [{
     key: 'render',
-    value: function render(data) {
+    value: function render(data, date) {
 
       if (!data) {
         console.warn('SimpleView: cannot render null object. Skipped!');
+        return;
+      }
+
+      if (date) {
+        this._renderSpecificDate(data, date);
         return;
       }
 
@@ -512,6 +515,44 @@ var SimpleView = function () {
 
       for (i in upcomingResult) {
         innerHTML += this._transformToParagraph(upcomingResult[i]);
+      }
+
+      innerHTML += '<p> Подробнее ➡️ <a href="//events4friends.ru/">events4friends.ru</a> </p>';
+
+      element.innerHTML = innerHTML;
+    }
+
+    /**
+     * @param {Object} data
+     * @param {Date} date
+     * @private
+     */
+
+  }, {
+    key: '_renderSpecificDate',
+    value: function _renderSpecificDate(data, date) {
+
+      /**
+       * @type {!Element}
+       */
+      var element = document.getElementById(this._elementId);
+
+      /**
+       * @type {!Array}
+       */
+      var result = data.items.filter(function (item) {
+        return item && item.hasOwnProperty('status') && item.status !== 'cancelled' && moment(item.start.dateTime).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD');
+      }).sort(this._comp).reverse();
+
+      var i = void 0;
+
+      /**
+       * @type {!string}
+       */
+      var innerHTML = '<h1 class="h2"> Анонс мероприятий на ' + moment(date).format('LL') + '</h1>';
+
+      for (i in result) {
+        innerHTML += this._transformToParagraph(result[i]);
       }
 
       innerHTML += '<p> Подробнее ➡️ <a href="//events4friends.ru/">events4friends.ru</a> </p>';

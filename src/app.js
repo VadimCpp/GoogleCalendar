@@ -133,11 +133,7 @@ class App {
 
         calendarView.render(that._googleCalendar.getData());
         calendarView.onDateChanged((date) => { 
-
-            console.log('[APP] date = ' + date);
-
-            // TODO: implement
-            
+            simpleView.render(that._googleCalendar.getData(), date);
         });
     }
 }
