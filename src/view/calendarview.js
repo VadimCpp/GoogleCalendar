@@ -68,7 +68,8 @@ export default class CalendarView {
                         '# } #' +
                     '">#= data.value # </div>'
                     
-            }
+            },
+            culture: "ru-RU"
         });
     }
 
