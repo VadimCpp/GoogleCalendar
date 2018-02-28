@@ -182,6 +182,11 @@
             position: absolute;
         }
 
+        .calendar-events {
+            font-weight: bold;
+            color: orange;
+        }
+
         /*********************************/
         /* ERROR SECTION                 */
         /*********************************/
@@ -305,13 +310,14 @@
     <script src="src/kendo-ui-core/kendo.messages.ru-RU.js"></script>
     <script src="src/kendo-ui-core/kendo.culture.ru-RU.js"></script>
 
-    <!-- 4. Custom -->
+    <!-- 4. Moment.js 2.20.1 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+
+    <!-- 5. Custom -->
     <script type="text/javascript">
 
         // Tooltip on click of a button:
         // https://stackoverflow.com/a/37799208/1775459
-
-        // Tooltip
 
         $('#btn-copy').tooltip({
             trigger: 'click',
@@ -346,7 +352,7 @@
 
     </script>
 
-    <!-- 5. App -->
+    <!-- 6. App -->
     <script src="dist/app.bundle.js"></script>
 
   </body>
