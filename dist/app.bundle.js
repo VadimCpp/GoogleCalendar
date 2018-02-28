@@ -224,25 +224,36 @@ var App = function () {
     key: 'displayData',
     value: function displayData() {
       /**
+       * @type {App}
+       */
+      var that = this;
+
+      /**
        * @type {!SimpleView}
        */
       var simpleView = new _simpleview2.default('simple-view');
 
-      simpleView.render(this._googleCalendar.getData());
+      simpleView.render(that._googleCalendar.getData());
 
       /**
        * @type {!DetailedView}
        */
       var detailedView = new _detailedview2.default('detailed-view');
 
-      detailedView.render(this._googleCalendar.getData());
+      detailedView.render(that._googleCalendar.getData());
 
       /**
        * @type {!CalendarView}
        */
       var calendarView = new _calendarview2.default('calendar-view');
 
-      calendarView.render(this._googleCalendar.getData());
+      calendarView.render(that._googleCalendar.getData());
+      calendarView.onDateChanged(function (date) {
+
+        console.log('[APP] date = ' + date);
+
+        // TODO: implement
+      });
     }
   }]);
 
@@ -1118,10 +1129,16 @@ var CalendarView = function () {
     this._elementId = elementId;
 
     /**
-     * @type {?Object} data
+     * @type {?Object}
      * @private
      */
     this._data = null;
+
+    /**
+     * @type {?function}
+     * @private
+     */
+    this._onDateChangedCallback = null;
   }
 
   /**
@@ -1157,7 +1174,9 @@ var CalendarView = function () {
       $('#calendar-view').kendoCalendar({
         value: today,
         change: function change() {
-          that.onDateChanged(this.value());
+          if (that._onDateChangedCallback) {
+            that._onDateChangedCallback(this.value());
+          }
         },
         dates: events,
         month: {
@@ -1168,16 +1187,14 @@ var CalendarView = function () {
     }
 
     /**
-     * @param {Date} value
+     * @param {function} cb
      * @public
      */
 
   }, {
     key: 'onDateChanged',
-    value: function onDateChanged(value) {
-      console.log(value);
-      console.log(this.getEventsNo(value));
-      // TODO: choose value
+    value: function onDateChanged(cb) {
+      this._onDateChangedCallback = cb;
     }
 
     /**

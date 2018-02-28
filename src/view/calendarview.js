@@ -16,10 +16,16 @@ export default class CalendarView {
         this._elementId = elementId;
 
         /**
-         * @type {?Object} data
+         * @type {?Object}
          * @private
          */
         this._data = null;
+
+        /**
+         * @type {?function}
+         * @private
+         */
+         this._onDateChangedCallback = null;
     }
 
     /**
@@ -51,7 +57,9 @@ export default class CalendarView {
         $('#calendar-view').kendoCalendar({
             value: today,
             change: function() {
-                that.onDateChanged(this.value());
+                if (that._onDateChangedCallback) {
+                    that._onDateChangedCallback(this.value());
+                }
             },
             dates: events,
             month: {
@@ -70,13 +78,11 @@ export default class CalendarView {
 
 
     /**
-     * @param {Date} value
+     * @param {function} cb
      * @public
      */
-    onDateChanged(value) {
-        console.log(value);
-        console.log(this.getEventsNo(value));
-        // TODO: choose value
+    onDateChanged(cb) {
+        this._onDateChangedCallback = cb;
     }
 
 

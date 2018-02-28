@@ -108,25 +108,37 @@ class App {
 
     displayData() {
         /**
+         * @type {App}
+         */
+        const that = this;
+
+        /**
          * @type {!SimpleView}
          */
         let simpleView = new SimpleView('simple-view');
 
-        simpleView.render(this._googleCalendar.getData());
+        simpleView.render(that._googleCalendar.getData());
 
         /**
          * @type {!DetailedView}
          */
         let detailedView = new DetailedView('detailed-view');
 
-        detailedView.render(this._googleCalendar.getData());
+        detailedView.render(that._googleCalendar.getData());
 
         /**
          * @type {!CalendarView}
          */
         let calendarView = new CalendarView('calendar-view');
 
-        calendarView.render(this._googleCalendar.getData());
+        calendarView.render(that._googleCalendar.getData());
+        calendarView.onDateChanged((date) => { 
+
+            console.log('[APP] date = ' + date);
+
+            // TODO: implement
+            
+        });
     }
 }
 
