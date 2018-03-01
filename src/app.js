@@ -134,6 +134,7 @@ class App {
         calendarView.render(that._googleCalendar.getData());
         calendarView.onDateChanged((date) => { 
             simpleView.render(that._googleCalendar.getData(), date);
+            detailedView.render(that._googleCalendar.getData(), date);
         });
     }
 }

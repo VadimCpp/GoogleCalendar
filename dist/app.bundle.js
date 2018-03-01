@@ -250,6 +250,7 @@ var App = function () {
       calendarView.render(that._googleCalendar.getData());
       calendarView.onDateChanged(function (date) {
         simpleView.render(that._googleCalendar.getData(), date);
+        detailedView.render(that._googleCalendar.getData(), date);
       });
     }
   }]);
@@ -833,16 +834,22 @@ var DetailedView = function () {
 
   /**
    * @param {!Object} data
+   * @param {Date} date
    * @public
    */
 
 
   _createClass(DetailedView, [{
     key: 'render',
-    value: function render(data) {
+    value: function render(data, date) {
 
       if (!data) {
         console.warn('SimpleView: cannot render null object. Skipped!');
+        return;
+      }
+
+      if (date) {
+        this._renderSpecificDate(data, date);
         return;
       }
 
@@ -907,6 +914,42 @@ var DetailedView = function () {
 
       for (i in upcomingResult) {
         innerHTML += this._transformToArticle(upcomingResult[i]);
+      }
+
+      element.innerHTML = innerHTML;
+    }
+
+    /**
+     * @param {Object} data
+     * @param {Date} date
+     * @private
+     */
+
+  }, {
+    key: '_renderSpecificDate',
+    value: function _renderSpecificDate(data, date) {
+
+      /**
+       * @type {!Element}
+       */
+      var element = document.getElementById(this._elementId);
+
+      /**
+       * @type {!Array}
+       */
+      var result = data.items.filter(function (item) {
+        return item && item.hasOwnProperty('status') && item.status !== 'cancelled' && moment(item.start.dateTime).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD');
+      }).sort(this._comp).reverse();
+
+      var i = void 0;
+
+      /**
+       * @type {!string}
+       */
+      var innerHTML = '<h1 class="h2"> Подробно </h1>';
+
+      for (i in result) {
+        innerHTML += this._transformToArticle(result[i]);
       }
 
       element.innerHTML = innerHTML;
@@ -1203,12 +1246,8 @@ var CalendarView = function () {
 
       that._data = data;
 
-      console.log('TEST');
-      console.log(data);
-
       var events = that.getEvents();
 
-      console.log('events', events);
       /**
        * Init and render Kendo UI calendar
        */
@@ -1223,7 +1262,8 @@ var CalendarView = function () {
         month: {
           content: '<div class="' + '# if ($.inArray(moment(data.date).format("YYYY-MM-DD"), data.dates) != -1) { #' + 'calendar-events' + '# } else { #' + 'calendar-no-events' + '# } #' + '">#= data.value # </div>'
 
-        }
+        },
+        culture: "ru-RU"
       });
     }
 

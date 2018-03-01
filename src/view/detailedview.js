@@ -18,12 +18,18 @@ export default class DetailedView {
 
     /**
      * @param {!Object} data
+     * @param {Date} date
      * @public
      */
-    render(data) {
+    render(data, date) {
 
         if (!data) {
             console.warn('SimpleView: cannot render null object. Skipped!');
+            return;
+        }
+        
+        if (date) {
+            this._renderSpecificDate(data, date);
             return;
         }
 
@@ -87,6 +93,41 @@ export default class DetailedView {
 
         for (i in upcomingResult) {
             innerHTML += this._transformToArticle(upcomingResult[i]);
+        }
+
+        element.innerHTML = innerHTML;
+    }
+
+    /**
+     * @param {Object} data
+     * @param {Date} date
+     * @private
+     */
+    _renderSpecificDate(data, date) {
+
+        /**
+         * @type {!Element}
+         */
+        let element = document.getElementById(this._elementId);
+
+        /**
+         * @type {!Array}
+         */
+        let result = data.items.filter(item => item && 
+            item.hasOwnProperty('status') && 
+            item.status !== 'cancelled' && 
+            moment(item.start.dateTime).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD')
+        ).sort(this._comp).reverse();
+
+        let i;
+
+        /**
+         * @type {!string}
+         */
+        let innerHTML = '<h1 class="h2"> Подробно </h1>';
+
+        for (i in result) {
+            innerHTML += this._transformToArticle(result[i]);
         }
 
         element.innerHTML = innerHTML;
