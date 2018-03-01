@@ -118,7 +118,7 @@ export default class SimpleView {
         let result = data.items.filter(item => item && 
             item.hasOwnProperty('status') && 
             item.status !== 'cancelled' && 
-            moment(item.start.dateTime).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD')
+            moment(item.start.date || item.start.dateTime).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD')
         ).sort(this._comp).reverse();
 
         let i;

@@ -97,7 +97,12 @@ export default class CalendarView {
          */
         let events = [];
 
+        console.log(' 1️⃣ [CalendarView] getEvents');
+
         if (this._data && this._data.items && this._data.items.length) {
+
+            console.log(' 1️⃣ [CalendarView] all the data: ', this._data);
+
             /**
              * @type {number}
              */
@@ -109,15 +114,30 @@ export default class CalendarView {
                  */
                 let item = this._data.items[i];
 
-                /**
-                 * @type {string}
-                 */
-                let started = moment(item.start.dateTime).format("YYYY-MM-DD");
+                console.log(' 1️⃣ [CalendarView] item:', JSON.stringify(item.summary), JSON.stringify(item.start.date || item.start.dateTime));
 
-                if (events.indexOf(started) == -1) {
+                /**
+                 * @type {?string}
+                 */
+                let started = null;
+
+                if (item.start.dateTime) {
+                    started = moment(item.start.dateTime).format("YYYY-MM-DD");
+                } else if (item.start.date) {
+                    started = moment(item.start.date).format("YYYY-MM-DD");
+                }
+
+                if (started && events.indexOf(started) == -1) {
                     events.push(started);
                 }
             }
+
+            events = events.sort();
+        }
+
+        console.log(' 1️⃣ [CalendarView] Array of dates:');
+        for (let j in events) {
+            console.log(events[j]);
         }
 
         return events;
@@ -157,11 +177,17 @@ export default class CalendarView {
                 let item = this._data.items[i];
 
                 /**
-                 * @type {string}
+                 * @type {?string}
                  */
-                let started = moment(item.start.dateTime).format("YYYY-MM-DD");
+                let started = null;
 
-                if (started == momentDate) {
+                if (item.start.dateTime) {
+                    started = moment(item.start.dateTime).format("YYYY-MM-DD");
+                } else if (item.start.date) {
+                    started = moment(item.start.date).format("YYYY-MM-DD");
+                }
+
+                if (started && started == momentDate) {
                     retVal++;
                 }
             }

@@ -542,7 +542,7 @@ var SimpleView = function () {
        * @type {!Array}
        */
       var result = data.items.filter(function (item) {
-        return item && item.hasOwnProperty('status') && item.status !== 'cancelled' && moment(item.start.dateTime).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD');
+        return item && item.hasOwnProperty('status') && item.status !== 'cancelled' && moment(item.start.date || item.start.dateTime).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD');
       }).sort(this._comp).reverse();
 
       var i = void 0;
@@ -1187,7 +1187,7 @@ exports.default = DetailedView;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1199,179 +1199,205 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 var CalendarView = function () {
 
-  /**
-   * @param {!string} elementId
-   * @public
-   */
-  function CalendarView(elementId) {
-    _classCallCheck(this, CalendarView);
-
     /**
-     * @type {!string}
-     * @private
-     */
-    this._elementId = elementId;
-
-    /**
-     * @type {?Object}
-     * @private
-     */
-    this._data = null;
-
-    /**
-     * @type {?function}
-     * @private
-     */
-    this._onDateChangedCallback = null;
-  }
-
-  /**
-   * @param {!Object} data
-   * @public
-   */
-
-
-  _createClass(CalendarView, [{
-    key: 'render',
-    value: function render(data) {
-      /**
-       * @type {!CalendarView}
-       */
-      var that = this;
-
-      /**
-       * @type {!Date}
-       */
-      var today = new Date();
-
-      that._data = data;
-
-      var events = that.getEvents();
-
-      /**
-       * Init and render Kendo UI calendar
-       */
-      $('#calendar-view').kendoCalendar({
-        value: today,
-        change: function change() {
-          if (that._onDateChangedCallback) {
-            that._onDateChangedCallback(this.value());
-          }
-        },
-        dates: events,
-        month: {
-          content: '<div class="' + '# if ($.inArray(moment(data.date).format("YYYY-MM-DD"), data.dates) != -1) { #' + 'calendar-events' + '# } else { #' + 'calendar-no-events' + '# } #' + '">#= data.value # </div>'
-
-        },
-        culture: "ru-RU"
-      });
-    }
-
-    /**
-     * @param {function} cb
+     * @param {!string} elementId
      * @public
      */
+    function CalendarView(elementId) {
+        _classCallCheck(this, CalendarView);
 
-  }, {
-    key: 'onDateChanged',
-    value: function onDateChanged(cb) {
-      this._onDateChangedCallback = cb;
-    }
-
-    /**
-     * Return array of dates when event happens.
-     * If no events empty array is returned.
-     *
-     * @param {Date} date
-     * @return {Array}
-     * @public
-     */
-
-  }, {
-    key: 'getEvents',
-    value: function getEvents() {
-      /**
-       * @type {Array}
-       */
-      var events = [];
-
-      if (this._data && this._data.items && this._data.items.length) {
         /**
-         * @type {number}
+         * @type {!string}
+         * @private
          */
-        var length = this._data.items.length;
+        this._elementId = elementId;
 
-        for (var i = 0; i < length; i++) {
-          /**
-           * @type {number}
-           */
-          var item = this._data.items[i];
+        /**
+         * @type {?Object}
+         * @private
+         */
+        this._data = null;
 
-          /**
-           * @type {string}
-           */
-          var started = moment(item.start.dateTime).format("YYYY-MM-DD");
-
-          if (events.indexOf(started) == -1) {
-            events.push(started);
-          }
-        }
-      }
-
-      return events;
+        /**
+         * @type {?function}
+         * @private
+         */
+        this._onDateChangedCallback = null;
     }
 
     /**
-     * Return number of events which happens on the specified date.
-     * If no events found returns 0.
-     *
-     * @param {Date} date
-     * @return {number}
+     * @param {!Object} data
      * @public
      */
 
-  }, {
-    key: 'getEventsNo',
-    value: function getEventsNo(date) {
 
-      /**
-       * @type {string}
-       */
-      var momentDate = moment(date).format("YYYY-MM-DD");
+    _createClass(CalendarView, [{
+        key: 'render',
+        value: function render(data) {
+            /**
+             * @type {!CalendarView}
+             */
+            var that = this;
 
-      /**
-       * @type {number}
-       */
-      var retVal = 0;
+            /**
+             * @type {!Date}
+             */
+            var today = new Date();
 
-      if (this._data && this._data.items && this._data.items.length) {
-        /**
-         * @type {number}
-         */
-        var length = this._data.items.length;
+            that._data = data;
 
-        for (var i = 0; i < length; i++) {
-          /**
-           * @type {number}
-           */
-          var item = this._data.items[i];
+            var events = that.getEvents();
 
-          /**
-           * @type {string}
-           */
-          var started = moment(item.start.dateTime).format("YYYY-MM-DD");
+            /**
+             * Init and render Kendo UI calendar
+             */
+            $('#calendar-view').kendoCalendar({
+                value: today,
+                change: function change() {
+                    if (that._onDateChangedCallback) {
+                        that._onDateChangedCallback(this.value());
+                    }
+                },
+                dates: events,
+                month: {
+                    content: '<div class="' + '# if ($.inArray(moment(data.date).format("YYYY-MM-DD"), data.dates) != -1) { #' + 'calendar-events' + '# } else { #' + 'calendar-no-events' + '# } #' + '">#= data.value # </div>'
 
-          if (started == momentDate) {
-            retVal++;
-          }
+                },
+                culture: "ru-RU"
+            });
         }
-      }
 
-      return retVal;
-    }
-  }]);
+        /**
+         * @param {function} cb
+         * @public
+         */
 
-  return CalendarView;
+    }, {
+        key: 'onDateChanged',
+        value: function onDateChanged(cb) {
+            this._onDateChangedCallback = cb;
+        }
+
+        /**
+         * Return array of dates when event happens.
+         * If no events empty array is returned.
+         *
+         * @param {Date} date
+         * @return {Array}
+         * @public
+         */
+
+    }, {
+        key: 'getEvents',
+        value: function getEvents() {
+            /**
+             * @type {Array}
+             */
+            var events = [];
+
+            console.log(' 1️⃣ [CalendarView] getEvents');
+
+            if (this._data && this._data.items && this._data.items.length) {
+
+                console.log(' 1️⃣ [CalendarView] all the data: ', this._data);
+
+                /**
+                 * @type {number}
+                 */
+                var length = this._data.items.length;
+
+                for (var i = 0; i < length; i++) {
+                    /**
+                     * @type {number}
+                     */
+                    var item = this._data.items[i];
+
+                    console.log(' 1️⃣ [CalendarView] item:', JSON.stringify(item.summary), JSON.stringify(item.start.date || item.start.dateTime));
+
+                    /**
+                     * @type {?string}
+                     */
+                    var started = null;
+
+                    if (item.start.dateTime) {
+                        started = moment(item.start.dateTime).format("YYYY-MM-DD");
+                    } else if (item.start.date) {
+                        started = moment(item.start.date).format("YYYY-MM-DD");
+                    }
+
+                    if (started && events.indexOf(started) == -1) {
+                        events.push(started);
+                    }
+                }
+
+                events = events.sort();
+            }
+
+            console.log(' 1️⃣ [CalendarView] Array of dates:');
+            for (var j in events) {
+                console.log(events[j]);
+            }
+
+            return events;
+        }
+
+        /**
+         * Return number of events which happens on the specified date.
+         * If no events found returns 0.
+         *
+         * @param {Date} date
+         * @return {number}
+         * @public
+         */
+
+    }, {
+        key: 'getEventsNo',
+        value: function getEventsNo(date) {
+
+            /**
+             * @type {string}
+             */
+            var momentDate = moment(date).format("YYYY-MM-DD");
+
+            /**
+             * @type {number}
+             */
+            var retVal = 0;
+
+            if (this._data && this._data.items && this._data.items.length) {
+                /**
+                 * @type {number}
+                 */
+                var length = this._data.items.length;
+
+                for (var i = 0; i < length; i++) {
+                    /**
+                     * @type {number}
+                     */
+                    var item = this._data.items[i];
+
+                    /**
+                     * @type {?string}
+                     */
+                    var started = null;
+
+                    if (item.start.dateTime) {
+                        started = moment(item.start.dateTime).format("YYYY-MM-DD");
+                    } else if (item.start.date) {
+                        started = moment(item.start.date).format("YYYY-MM-DD");
+                    }
+
+                    if (started && started == momentDate) {
+                        retVal++;
+                    }
+                }
+            }
+
+            return retVal;
+        }
+    }]);
+
+    return CalendarView;
 }();
 
 exports.default = CalendarView;
