@@ -92,7 +92,7 @@ export default class SimpleView {
         let innerHTML = '<h1 class="h2"> Анонс мероприятий </h1>';
 
         for (i in upcomingResult) {
-            innerHTML += this._transformToParagraph(upcomingResult[i]);
+            innerHTML += this._transformToParagraph(upcomingResult[i], true);
         }
 
         innerHTML += '<p> Подробнее ➡️ <a href="//events4friends.ru/">events4friends.ru</a> </p>';
@@ -126,10 +126,10 @@ export default class SimpleView {
         /**
          * @type {!string}
          */
-        let innerHTML = '<h1 class="h2"> Анонс мероприятий на ' + moment(date).format('LL') + '</h1>';
+        let innerHTML = '<h1 class="h2"> 📅&nbsp;&nbsp;' + moment(date).format('LL') + '</h1>';
 
         for (i in result) {
-            innerHTML += this._transformToParagraph(result[i]);
+            innerHTML += this._transformToParagraph(result[i], false);
         }
 
         innerHTML += '<p> Подробнее ➡️ <a href="//events4friends.ru/">events4friends.ru</a> </p>';
@@ -178,10 +178,11 @@ export default class SimpleView {
      * Transforms record to a line
      *
      * @param {!Object} event
+     * @param {boolean} putDate
      * @return {!string}
      * @private
      */
-    _transformToParagraph(event) {
+    _transformToParagraph(event, putDate) {
         /**
          * @type {!string}
          */
@@ -192,7 +193,7 @@ export default class SimpleView {
          */
         let dateStart = this._getDateInfo(event.start.dateTime || event.start.date);
 
-        retVal += this._getSimpleFormattedDate(dateStart);;
+        retVal += this._getSimpleFormattedDate(dateStart, putDate);
         retVal += ' － ';
         retVal += '«' + event.summary + '»';
         retVal += ', ';
@@ -223,10 +224,17 @@ export default class SimpleView {
 
     /**
      * @type {!Array} dateStart
+     * @param {boolean} putDate     
      * @return {!string} - date, month, day, time
      * @private
      */
-    _getSimpleFormattedDate(dateStart) {
+    _getSimpleFormattedDate(dateStart, putDate) {
+
+        /**
+         * @type {!string}
+         */        
+        let retVal = '';
+
         /**
          * @type {!string}
          */        
@@ -237,7 +245,13 @@ export default class SimpleView {
          */  
         let dayNameStart = this._getDayNameFormatted(dateStart);
 
-        return '📅&nbsp;&nbsp;' + dateStart[0] + ' ' + this._getMonthName(dateStart[1]) + ', ' + dayNameStart + ' ' + formattedTime;
+        if (putDate) {
+            retVal = '📅&nbsp;&nbsp;' + dateStart[0] + ' ' + this._getMonthName(dateStart[1]) + ', ' + dayNameStart + ' ' + formattedTime;
+        } else {
+            retVal = formattedTime;
+        }
+
+        return retVal;
     }
 
     /**

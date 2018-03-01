@@ -515,7 +515,7 @@ var SimpleView = function () {
       var innerHTML = '<h1 class="h2"> Анонс мероприятий </h1>';
 
       for (i in upcomingResult) {
-        innerHTML += this._transformToParagraph(upcomingResult[i]);
+        innerHTML += this._transformToParagraph(upcomingResult[i], true);
       }
 
       innerHTML += '<p> Подробнее ➡️ <a href="//events4friends.ru/">events4friends.ru</a> </p>';
@@ -550,10 +550,10 @@ var SimpleView = function () {
       /**
        * @type {!string}
        */
-      var innerHTML = '<h1 class="h2"> Анонс мероприятий на ' + moment(date).format('LL') + '</h1>';
+      var innerHTML = '<h1 class="h2"> 📅&nbsp;&nbsp;' + moment(date).format('LL') + '</h1>';
 
       for (i in result) {
-        innerHTML += this._transformToParagraph(result[i]);
+        innerHTML += this._transformToParagraph(result[i], false);
       }
 
       innerHTML += '<p> Подробнее ➡️ <a href="//events4friends.ru/">events4friends.ru</a> </p>';
@@ -608,13 +608,14 @@ var SimpleView = function () {
      * Transforms record to a line
      *
      * @param {!Object} event
+     * @param {boolean} putDate
      * @return {!string}
      * @private
      */
 
   }, {
     key: '_transformToParagraph',
-    value: function _transformToParagraph(event) {
+    value: function _transformToParagraph(event, putDate) {
       /**
        * @type {!string}
        */
@@ -625,7 +626,7 @@ var SimpleView = function () {
        */
       var dateStart = this._getDateInfo(event.start.dateTime || event.start.date);
 
-      retVal += this._getSimpleFormattedDate(dateStart);;
+      retVal += this._getSimpleFormattedDate(dateStart, putDate);
       retVal += ' － ';
       retVal += '«' + event.summary + '»';
       retVal += ', ';
@@ -659,10 +660,17 @@ var SimpleView = function () {
 
     /**
      * @type {!Array} dateStart
+     * @param {boolean} putDate     
      * @return {!string} - date, month, day, time
      * @private
      */
-    value: function _getSimpleFormattedDate(dateStart) {
+    value: function _getSimpleFormattedDate(dateStart, putDate) {
+
+      /**
+       * @type {!string}
+       */
+      var retVal = '';
+
       /**
        * @type {!string}
        */
@@ -673,7 +681,13 @@ var SimpleView = function () {
        */
       var dayNameStart = this._getDayNameFormatted(dateStart);
 
-      return '📅&nbsp;&nbsp;' + dateStart[0] + ' ' + this._getMonthName(dateStart[1]) + ', ' + dayNameStart + ' ' + formattedTime;
+      if (putDate) {
+        retVal = '📅&nbsp;&nbsp;' + dateStart[0] + ' ' + this._getMonthName(dateStart[1]) + ', ' + dayNameStart + ' ' + formattedTime;
+      } else {
+        retVal = formattedTime;
+      }
+
+      return retVal;
     }
 
     /**
@@ -1295,12 +1309,7 @@ var CalendarView = function () {
              */
             var events = [];
 
-            console.log(' 1️⃣ [CalendarView] getEvents');
-
             if (this._data && this._data.items && this._data.items.length) {
-
-                console.log(' 1️⃣ [CalendarView] all the data: ', this._data);
-
                 /**
                  * @type {number}
                  */
@@ -1311,8 +1320,6 @@ var CalendarView = function () {
                      * @type {number}
                      */
                     var item = this._data.items[i];
-
-                    console.log(' 1️⃣ [CalendarView] item:', JSON.stringify(item.summary), JSON.stringify(item.start.date || item.start.dateTime));
 
                     /**
                      * @type {?string}
@@ -1331,11 +1338,6 @@ var CalendarView = function () {
                 }
 
                 events = events.sort();
-            }
-
-            console.log(' 1️⃣ [CalendarView] Array of dates:');
-            for (var j in events) {
-                console.log(events[j]);
             }
 
             return events;

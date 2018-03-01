@@ -97,12 +97,7 @@ export default class CalendarView {
          */
         let events = [];
 
-        console.log(' 1️⃣ [CalendarView] getEvents');
-
         if (this._data && this._data.items && this._data.items.length) {
-
-            console.log(' 1️⃣ [CalendarView] all the data: ', this._data);
-
             /**
              * @type {number}
              */
@@ -113,8 +108,6 @@ export default class CalendarView {
                  * @type {number}
                  */
                 let item = this._data.items[i];
-
-                console.log(' 1️⃣ [CalendarView] item:', JSON.stringify(item.summary), JSON.stringify(item.start.date || item.start.dateTime));
 
                 /**
                  * @type {?string}
@@ -133,11 +126,6 @@ export default class CalendarView {
             }
 
             events = events.sort();
-        }
-
-        console.log(' 1️⃣ [CalendarView] Array of dates:');
-        for (let j in events) {
-            console.log(events[j]);
         }
 
         return events;
