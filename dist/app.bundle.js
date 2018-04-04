@@ -247,7 +247,10 @@ var App = function () {
              */
             var calendarView = new _calendarview2.default('calendar-view');
 
-            if (!document.getElementById(calendarView._elementId).hasChildNodes()) calendarView.render(that._googleCalendar.getData());
+            if ($('#calendar-view [data-role="calendar"]').length > 0) {
+                calendarView.remove();
+            }
+            calendarView.render(that._googleCalendar.getData());
             calendarView.onDateChanged(function (date) {
                 simpleView.render(that._googleCalendar.getData(), date);
                 detailedView.render(that._googleCalendar.getData(), date);
@@ -1265,7 +1268,9 @@ var CalendarView = function () {
             /**
              * Init and render Kendo UI calendar
              */
-            $('#calendar-view').kendoCalendar({
+            $('#calendar-view').append('<div class="mx-auto d-block">HUI</div>');
+            var kendoWrapper = $('#calendar-view>div');
+            kendoWrapper.kendoCalendar({
                 value: today,
                 change: function change() {
                     if (that._onDateChangedCallback) {
@@ -1279,6 +1284,13 @@ var CalendarView = function () {
                 },
                 culture: "ru-RU"
             });
+        }
+    }, {
+        key: 'remove',
+        value: function remove() {
+            var data = $('#calendar-view [data-role="calendar"]').data("kendoCalendar");
+            data.destroy();
+            data.wrapper.empty().remove();
         }
 
         /**

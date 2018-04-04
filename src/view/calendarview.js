@@ -50,7 +50,9 @@ export default class CalendarView {
         /**
          * Init and render Kendo UI calendar
          */
-        $('#calendar-view').kendoCalendar({
+        $('#calendar-view').append('<div class="mx-auto d-block">HUI</div>');
+        let kendoWrapper = $('#calendar-view>div');
+        kendoWrapper.kendoCalendar({
             value: today,
             change: function() {
                 if (that._onDateChangedCallback) {
@@ -71,6 +73,13 @@ export default class CalendarView {
             },
             culture: "ru-RU"
         });
+    }
+
+    remove(){
+        let data = $('#calendar-view [data-role="calendar"]').data("kendoCalendar");
+        data.destroy();
+        data.wrapper.empty().remove();
+
     }
 
 

@@ -131,7 +131,10 @@ class App {
          */
         let calendarView = new CalendarView('calendar-view');
 
-        if(!document.getElementById(calendarView._elementId).hasChildNodes()) calendarView.render(that._googleCalendar.getData());
+        if($('#calendar-view [data-role="calendar"]').length > 0){
+            calendarView.remove();
+        } 
+        calendarView.render(that._googleCalendar.getData());
         calendarView.onDateChanged((date) => { 
             simpleView.render(that._googleCalendar.getData(), date);
             detailedView.render(that._googleCalendar.getData(), date);
