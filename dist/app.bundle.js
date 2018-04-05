@@ -97,165 +97,168 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 var App = function () {
 
-  /**
-   * @param {{ apiKey: !string, calendarId: !string }} config
-   * @public
-   */
-  function App(config) {
-    _classCallCheck(this, App);
-
-    var that = this;
-
     /**
-     * @type {!GoogleCalendar}
-     * @private
+     * @param {{ apiKey: !string, calendarId: !string }} config
+     * @public
      */
-    this._googleCalendar = new _googlecalendar2.default({ apiKey: apiKey, calendarId: calendarId });
-  }
+    function App(config) {
+        _classCallCheck(this, App);
 
-  /**
-   * Request Google Calendar data and render information.
-   *   
-   * @public
-   */
+        var that = this;
 
-
-  _createClass(App, [{
-    key: 'start',
-    value: function start() {
-      var that = this;
-
-      document.getElementById('btn-load').addEventListener('click', function (e) {
-        that.updateSchedule();
-      });
-
-      that.updateSchedule();
+        /**
+         * @type {!GoogleCalendar}
+         * @private
+         */
+        this._googleCalendar = new _googlecalendar2.default({ apiKey: apiKey, calendarId: calendarId });
     }
 
     /**
-     * Update the schedule.
+     * Request Google Calendar data and render information.
+     *   
      * @public
      */
 
-  }, {
-    key: 'updateSchedule',
-    value: function updateSchedule() {
-      var _this = this;
 
-      this.disableButtons();
-      this.displayProgress();
-      this.hideError();
+    _createClass(App, [{
+        key: 'start',
+        value: function start() {
+            var that = this;
 
-      this._googleCalendar.load(function (success) {
-        if (success) {
-          _this.hideProgress();
-          _this.enableButtons();
-          _this.displayData();
-        } else {
-          _this.hideProgress();
-          _this.enableButtons();
-          _this.displayError();
+            document.getElementById('btn-load').addEventListener('click', function (e) {
+                that.updateSchedule();
+            });
+
+            that.updateSchedule();
         }
-      });
-    }
 
-    /**
-     * @public
-     */
+        /**
+         * Update the schedule.
+         * @public
+         */
 
-  }, {
-    key: 'disableButtons',
-    value: function disableButtons() {
-      document.getElementById('btn-load').classList.add('disabled');
-      document.getElementById('btn-copy').classList.add('disabled');
-    }
+    }, {
+        key: 'updateSchedule',
+        value: function updateSchedule() {
+            var _this = this;
 
-    /**
-     * @public
-     */
+            this.disableButtons();
+            this.displayProgress();
+            this.hideError();
 
-  }, {
-    key: 'enableButtons',
-    value: function enableButtons() {
-      document.getElementById('btn-load').classList.remove('disabled');
-      document.getElementById('btn-copy').classList.remove('disabled');
-    }
+            this._googleCalendar.load(function (success) {
+                if (success) {
+                    _this.hideProgress();
+                    _this.enableButtons();
+                    _this.displayData();
+                } else {
+                    _this.hideProgress();
+                    _this.enableButtons();
+                    _this.displayError();
+                }
+            });
+        }
 
-    /**
-     * @public
-     */
+        /**
+         * @public
+         */
 
-  }, {
-    key: 'displayProgress',
-    value: function displayProgress() {
-      document.getElementById('view-progress').classList.remove('container_hidden');
-    }
+    }, {
+        key: 'disableButtons',
+        value: function disableButtons() {
+            document.getElementById('btn-load').classList.add('disabled');
+            document.getElementById('btn-copy').classList.add('disabled');
+        }
 
-    /**
-     * @public
-     */
+        /**
+         * @public
+         */
 
-  }, {
-    key: 'hideProgress',
-    value: function hideProgress() {
-      document.getElementById('view-progress').classList.add('container_hidden');
-    }
+    }, {
+        key: 'enableButtons',
+        value: function enableButtons() {
+            document.getElementById('btn-load').classList.remove('disabled');
+            document.getElementById('btn-copy').classList.remove('disabled');
+        }
 
-    /**
-     * @public
-     */
+        /**
+         * @public
+         */
 
-  }, {
-    key: 'displayError',
-    value: function displayError() {
-      document.getElementById('view-error').classList.remove('container_hidden');
-    }
+    }, {
+        key: 'displayProgress',
+        value: function displayProgress() {
+            document.getElementById('view-progress').classList.remove('container_hidden');
+        }
 
-    /**
-     * @public
-     */
+        /**
+         * @public
+         */
 
-  }, {
-    key: 'hideError',
-    value: function hideError() {
-      document.getElementById('view-error').classList.add('container_hidden');
-    }
-  }, {
-    key: 'displayData',
-    value: function displayData() {
-      /**
-       * @type {App}
-       */
-      var that = this;
+    }, {
+        key: 'hideProgress',
+        value: function hideProgress() {
+            document.getElementById('view-progress').classList.add('container_hidden');
+        }
 
-      /**
-       * @type {!SimpleView}
-       */
-      var simpleView = new _simpleview2.default('simple-view');
+        /**
+         * @public
+         */
 
-      simpleView.render(that._googleCalendar.getData());
+    }, {
+        key: 'displayError',
+        value: function displayError() {
+            document.getElementById('view-error').classList.remove('container_hidden');
+        }
 
-      /**
-       * @type {!DetailedView}
-       */
-      var detailedView = new _detailedview2.default('detailed-view');
+        /**
+         * @public
+         */
 
-      detailedView.render(that._googleCalendar.getData());
+    }, {
+        key: 'hideError',
+        value: function hideError() {
+            document.getElementById('view-error').classList.add('container_hidden');
+        }
+    }, {
+        key: 'displayData',
+        value: function displayData() {
+            /**
+             * @type {App}
+             */
+            var that = this;
 
-      /**
-       * @type {!CalendarView}
-       */
-      var calendarView = new _calendarview2.default('calendar-view');
+            /**
+             * @type {!SimpleView}
+             */
+            var simpleView = new _simpleview2.default('simple-view');
 
-      calendarView.render(that._googleCalendar.getData());
-      calendarView.onDateChanged(function (date) {
-        simpleView.render(that._googleCalendar.getData(), date);
-        detailedView.render(that._googleCalendar.getData(), date);
-      });
-    }
-  }]);
+            simpleView.render(that._googleCalendar.getData());
 
-  return App;
+            /**
+             * @type {!DetailedView}
+             */
+            var detailedView = new _detailedview2.default('detailed-view');
+
+            detailedView.render(that._googleCalendar.getData());
+
+            /**
+             * @type {!CalendarView}
+             */
+            var calendarView = new _calendarview2.default('calendar-view');
+
+            if ($('#calendar-view [data-role="calendar"]').length > 0) {
+                calendarView.remove();
+            }
+            calendarView.render(that._googleCalendar.getData());
+            calendarView.onDateChanged(function (date) {
+                simpleView.render(that._googleCalendar.getData(), date);
+                detailedView.render(that._googleCalendar.getData(), date);
+            });
+        }
+    }]);
+
+    return App;
 }();
 
 /**
@@ -278,8 +281,8 @@ var calendarId = "dveenjcu4k5ktd3k8pv4iul2bk@group.calendar.google.com";
 var app = void 0;
 
 window.onload = function () {
-  app = new App({ apiKey: apiKey, calendarId: calendarId });
-  app.start();
+    app = new App({ apiKey: apiKey, calendarId: calendarId });
+    app.start();
 };
 
 /***/ }),
@@ -408,7 +411,7 @@ exports.default = GoogleCalendar;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+        value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -420,394 +423,394 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 var SimpleView = function () {
 
-  /**
-   * @param {!string} elementId
-   * @public
-   */
-  function SimpleView(elementId) {
-    _classCallCheck(this, SimpleView);
+        /**
+         * @param {!string} elementId
+         * @public
+         */
+        function SimpleView(elementId) {
+                _classCallCheck(this, SimpleView);
 
-    /**
-     * @type {!string}
-     * @private
-     */
-    this._elementId = elementId;
-  }
-
-  /**
-   * @param {Object} data
-   * @param {Date} date
-   * @public
-   */
-
-
-  _createClass(SimpleView, [{
-    key: 'render',
-    value: function render(data, date) {
-
-      if (!data) {
-        console.warn('SimpleView: cannot render null object. Skipped!');
-        return;
-      }
-
-      if (date) {
-        this._renderSpecificDate(data, date);
-        return;
-      }
-
-      /**
-       * The maximum number of events allowed to display
-       *
-       * @const {!number}
-       */
-      var upcomingTopN = 10;
-
-      /**
-       * @type {!Element}
-       */
-      var element = document.getElementById(this._elementId);
-
-      /**
-       * @type {!Array}
-       */
-      var result = [];
-
-      /**
-       * @type {!Array}
-       */
-      var upcomingResultTemp = [];
-
-      /**
-       * @type {!Array}
-       */
-      var upcomingResult = [];
-
-      /**
-       * @type {!number}
-       */
-      var upcomingCounter = 0;
-
-      // Remove cancelled events, sort by date
-      result = data.items.filter(function (item) {
-        return item && item.hasOwnProperty('status') && item.status !== 'cancelled';
-      }).sort(this._comp).reverse();
-
-      var i = void 0;
-
-      for (i in result) {
-        if (!this._isPast(result[i].end.dateTime || result[i].end.date)) {
-          upcomingResultTemp.push(result[i]);
+                /**
+                 * @type {!string}
+                 * @private
+                 */
+                this._elementId = elementId;
         }
-      }
-
-      upcomingResultTemp.reverse();
-
-      for (i in upcomingResultTemp) {
-        if (upcomingCounter < upcomingTopN) {
-          upcomingResult.push(upcomingResultTemp[i]);
-          upcomingCounter++;
-        }
-      }
-
-      /**
-       * @type {!string}
-       */
-      var innerHTML = '<h1 class="h2"> Анонс мероприятий </h1>';
-
-      for (i in upcomingResult) {
-        innerHTML += this._transformToParagraph(upcomingResult[i], true);
-      }
-
-      innerHTML += '<p> Подробнее ➡️ <a href="//events4friends.ru/">events4friends.ru</a> </p>';
-
-      element.innerHTML = innerHTML;
-    }
-
-    /**
-     * @param {Object} data
-     * @param {Date} date
-     * @private
-     */
-
-  }, {
-    key: '_renderSpecificDate',
-    value: function _renderSpecificDate(data, date) {
-
-      /**
-       * @type {!Element}
-       */
-      var element = document.getElementById(this._elementId);
-
-      /**
-       * @type {!Array}
-       */
-      var result = data.items.filter(function (item) {
-        return item && item.hasOwnProperty('status') && item.status !== 'cancelled' && moment(item.start.date || item.start.dateTime).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD');
-      }).sort(this._comp).reverse();
-
-      var i = void 0;
-
-      /**
-       * @type {!string}
-       */
-      var innerHTML = '<h1 class="h2"> 📅&nbsp;&nbsp;' + moment(date).format('LL') + '</h1>';
-
-      for (i in result) {
-        innerHTML += this._transformToParagraph(result[i], false);
-      }
-
-      innerHTML += '<p> Подробнее ➡️ <a href="//events4friends.ru/">events4friends.ru</a> </p>';
-
-      element.innerHTML = innerHTML;
-    }
-
-    /**
-     * Check if date is later then now
-     *
-     * @param {!Date} date
-     * @return {!boolean}
-     * @private
-     */
-
-  }, {
-    key: '_isPast',
-    value: function _isPast(date) {
-      /**
-       * @type {!string}
-       */
-      var compareDate = new Date(date);
-
-      /**
-       * @type {!string}
-       */
-      var now = new Date();
-
-      if (now.getTime() > compareDate.getTime()) {
-        return true;
-      }
-
-      return false;
-    }
-  }, {
-    key: '_comp',
-
-
-    /**
-     * Compare dates.
-     *
-     * @param {!Object} a
-     * @param {!Object} b
-     * @return {!number}
-     * @private
-     */
-    value: function _comp(a, b) {
-      return new Date(a.start.dateTime || a.start.date).getTime() - new Date(b.start.dateTime || b.start.date).getTime();
-    }
-
-    /**
-     * Transforms record to a line
-     *
-     * @param {!Object} event
-     * @param {boolean} putDate
-     * @return {!string}
-     * @private
-     */
-
-  }, {
-    key: '_transformToParagraph',
-    value: function _transformToParagraph(event, putDate) {
-      /**
-       * @type {!string}
-       */
-      var retVal = '<p>';
-
-      /**
-       * @type {!Array}
-       */
-      var dateStart = this._getDateInfo(event.start.dateTime || event.start.date);
-
-      retVal += this._getSimpleFormattedDate(dateStart, putDate);
-      retVal += ' － ';
-      retVal += '«' + event.summary + '»';
-      retVal += ', ';
-
-      retVal += this._getSimpleLocation(event.location || ''), retVal += '</p>';
-
-      return retVal;
-    }
-
-    /**
-     * Get temp array with information abou day in followin format: [day number, month number, year, hours, minutes]
-     *
-     * @type {!string} startDate
-     * @return {!Array}
-     * @private
-     */
-
-  }, {
-    key: '_getDateInfo',
-    value: function _getDateInfo(startDate) {
-      /**
-       * @type {!Date}
-       */
-      var date = new Date(startDate);
-
-      return [date.getDate(), date.getMonth(), date.getFullYear(), date.getHours(), date.getMinutes(), 0, 0];
-    }
-  }, {
-    key: '_getSimpleFormattedDate',
-
-
-    /**
-     * @type {!Array} dateStart
-     * @param {boolean} putDate     
-     * @return {!string} - date, month, day, time
-     * @private
-     */
-    value: function _getSimpleFormattedDate(dateStart, putDate) {
-
-      /**
-       * @type {!string}
-       */
-      var retVal = '';
-
-      /**
-       * @type {!string}
-       */
-      var formattedTime = '🕗&nbsp;&nbsp;' + this._getFormattedTime24(dateStart);
-
-      /**
-       * @type {!string}
-       */
-      var dayNameStart = this._getDayNameFormatted(dateStart);
-
-      if (putDate) {
-        retVal = '📅&nbsp;&nbsp;' + dateStart[0] + ' ' + this._getMonthName(dateStart[1]) + ', ' + dayNameStart + ' ' + formattedTime;
-      } else {
-        retVal = formattedTime;
-      }
-
-      return retVal;
-    }
-
-    /**
-     * @type {!Array} date
-     * @return {!string} - hh:mm
-     * @private
-     */
-
-  }, {
-    key: '_getFormattedTime24',
-    value: function _getFormattedTime24(date) {
-      var formattedTime = '',
-          hour = date[3],
-          minute = date[4];
-
-      // Ensure 2-digit minute value.
-      minute = (minute < 10 ? '0' : '') + minute;
-
-      // Ensure 2-digit hour value.
-      hour = (hour < 10 ? '0' : '') + hour;
-
-      // Format time.
-      formattedTime = hour + ':' + minute;
-
-      return formattedTime;
-    }
-
-    /**
-     * @type {!Array} dateFormatted
-     * @return {!string} - ????
-     * @private
-     */
-
-  }, {
-    key: '_getDayNameFormatted',
-    value: function _getDayNameFormatted(dateFormatted) {
-
-      return this._getDayName(this._getDateFormatted(dateFormatted).getDay()) + ' ';
-    }
-
-    /**
-     * @type {!number} day
-     * @return {!string} - week day
-     * @private
-     */
-
-  }, {
-    key: '_getDayName',
-    value: function _getDayName(day) {
-
-      /**
-       * @type {!Array}
-       */
-      var dayNames = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
-
-      return dayNames[day];
-    }
-  }, {
-    key: '_getDateFormatted',
-
-
-    /**
-     * @type {!Array} dateInfo
-     * @return {!Date}
-     * @private
-     */
-    value: function _getDateFormatted(dateInfo) {
-
-      return new Date(dateInfo[2], dateInfo[1], dateInfo[0], dateInfo[3], dateInfo[4] + 0, 0);
-    }
-
-    /**
-     * Get month name according to index.
-     *
-     * @type {!number} month
-     * @return {!string}
-     * @private
-     */
-
-  }, {
-    key: '_getMonthName',
-    value: function _getMonthName(month) {
-
-      /**
-       * @type {!Array}
-       */
-      var monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
-
-      return monthNames[month];
-    }
-  }, {
-    key: '_getSimpleLocation',
-
-
-    /**
-     * @type {!string} location
-     * @return {!string}
-     * @private
-     */
-    value: function _getSimpleLocation(location) {
-
-      /**
-       * @type {!string}
-       */
-      var simpleLocation = '';
-
-      /**
-       * @type {!number}
-       */
-      var secondCommaPosition = location.indexOf(',', location.indexOf(',', 0) + 1);
-
-      if (secondCommaPosition > 0) {
-        simpleLocation = location.substr(0, secondCommaPosition);
-      }
-
-      return '📍&nbsp;&nbsp;' + simpleLocation;
-    }
-  }]);
-
-  return SimpleView;
+
+        /**
+         * @param {Object} data
+         * @param {Date} date
+         * @public
+         */
+
+
+        _createClass(SimpleView, [{
+                key: 'render',
+                value: function render(data, date) {
+
+                        if (!data) {
+                                console.warn('SimpleView: cannot render null object. Skipped!');
+                                return;
+                        }
+
+                        if (date) {
+                                this._renderSpecificDate(data, date);
+                                return;
+                        }
+
+                        /**
+                         * The maximum number of events allowed to display
+                         *
+                         * @const {!number}
+                         */
+                        var upcomingTopN = 10;
+
+                        /**
+                         * @type {!Element}
+                         */
+                        var element = document.getElementById(this._elementId);
+
+                        /**
+                         * @type {!Array}
+                         */
+                        var result = [];
+
+                        /**
+                         * @type {!Array}
+                         */
+                        var upcomingResultTemp = [];
+
+                        /**
+                         * @type {!Array}
+                         */
+                        var upcomingResult = [];
+
+                        /**
+                         * @type {!number}
+                         */
+                        var upcomingCounter = 0;
+
+                        // Remove cancelled events, sort by date
+                        result = data.items.filter(function (item) {
+                                return item && item.hasOwnProperty('status') && item.status !== 'cancelled';
+                        }).sort(this._comp).reverse();
+
+                        var i = void 0;
+
+                        for (i in result) {
+                                if (!this._isPast(result[i].end.dateTime || result[i].end.date)) {
+                                        upcomingResultTemp.push(result[i]);
+                                }
+                        }
+
+                        upcomingResultTemp.reverse();
+
+                        for (i in upcomingResultTemp) {
+                                if (upcomingCounter < upcomingTopN) {
+                                        upcomingResult.push(upcomingResultTemp[i]);
+                                        upcomingCounter++;
+                                }
+                        }
+
+                        /**
+                         * @type {!string}
+                         */
+                        var innerHTML = '<h1 class="h2"> Анонс мероприятий </h1>';
+
+                        for (i in upcomingResult) {
+                                innerHTML += this._transformToParagraph(upcomingResult[i], true);
+                        }
+
+                        innerHTML += '<p> Подробнее ➡️ <a href="//events4friends.ru/">events4friends.ru</a> </p>';
+
+                        element.innerHTML = innerHTML;
+                }
+
+                /**
+                 * @param {Object} data
+                 * @param {Date} date
+                 * @private
+                 */
+
+        }, {
+                key: '_renderSpecificDate',
+                value: function _renderSpecificDate(data, date) {
+
+                        /**
+                         * @type {!Element}
+                         */
+                        var element = document.getElementById(this._elementId);
+
+                        /**
+                         * @type {!Array}
+                         */
+                        var result = data.items.filter(function (item) {
+                                return item && item.hasOwnProperty('status') && item.status !== 'cancelled' && moment(item.start.date || item.start.dateTime).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD');
+                        }).sort(this._comp).reverse();
+
+                        var i = void 0;
+
+                        /**
+                         * @type {!string}
+                         */
+                        var innerHTML = '<h1 class="h2"> 📅&nbsp;&nbsp;' + moment(date).format('LL') + '</h1>';
+
+                        for (i in result) {
+                                innerHTML += this._transformToParagraph(result[i], false);
+                        }
+
+                        innerHTML += '<p> Подробнее ➡️ <a href="//events4friends.ru/">events4friends.ru</a> </p>';
+
+                        element.innerHTML = innerHTML;
+                }
+
+                /**
+                 * Check if date is later then now
+                 *
+                 * @param {!Date} date
+                 * @return {!boolean}
+                 * @private
+                 */
+
+        }, {
+                key: '_isPast',
+                value: function _isPast(date) {
+                        /**
+                         * @type {!string}
+                         */
+                        var compareDate = new Date(date);
+
+                        /**
+                         * @type {!string}
+                         */
+                        var now = new Date();
+
+                        if (now.getTime() > compareDate.getTime()) {
+                                return true;
+                        }
+
+                        return false;
+                }
+        }, {
+                key: '_comp',
+
+
+                /**
+                 * Compare dates.
+                 *
+                 * @param {!Object} a
+                 * @param {!Object} b
+                 * @return {!number}
+                 * @private
+                 */
+                value: function _comp(a, b) {
+                        return new Date(a.start.dateTime || a.start.date).getTime() - new Date(b.start.dateTime || b.start.date).getTime();
+                }
+
+                /**
+                 * Transforms record to a line
+                 *
+                 * @param {!Object} event
+                 * @param {boolean} putDate
+                 * @return {!string}
+                 * @private
+                 */
+
+        }, {
+                key: '_transformToParagraph',
+                value: function _transformToParagraph(event, putDate) {
+                        /**
+                         * @type {!string}
+                         */
+                        var retVal = '<p>';
+
+                        /**
+                         * @type {!Array}
+                         */
+                        var dateStart = this._getDateInfo(event.start.dateTime || event.start.date);
+
+                        retVal += this._getSimpleFormattedDate(dateStart, putDate);
+                        retVal += ' － ';
+                        retVal += '«' + event.summary + '»';
+                        retVal += ', ';
+
+                        retVal += this._getSimpleLocation(event.location || ''), retVal += '</p>';
+
+                        return retVal;
+                }
+
+                /**
+                 * Get temp array with information abou day in followin format: [day number, month number, year, hours, minutes]
+                 *
+                 * @type {!string} startDate
+                 * @return {!Array}
+                 * @private
+                 */
+
+        }, {
+                key: '_getDateInfo',
+                value: function _getDateInfo(startDate) {
+                        /**
+                         * @type {!Date}
+                         */
+                        var date = new Date(startDate);
+
+                        return [date.getDate(), date.getMonth(), date.getFullYear(), date.getHours(), date.getMinutes(), 0, 0];
+                }
+        }, {
+                key: '_getSimpleFormattedDate',
+
+
+                /**
+                 * @type {!Array} dateStart
+                 * @param {boolean} putDate     
+                 * @return {!string} - date, month, day, time
+                 * @private
+                 */
+                value: function _getSimpleFormattedDate(dateStart, putDate) {
+
+                        /**
+                         * @type {!string}
+                         */
+                        var retVal = '';
+
+                        /**
+                         * @type {!string}
+                         */
+                        var formattedTime = '🕗&nbsp;&nbsp;' + this._getFormattedTime24(dateStart);
+
+                        /**
+                         * @type {!string}
+                         */
+                        var dayNameStart = this._getDayNameFormatted(dateStart);
+
+                        if (putDate) {
+                                retVal = '📅&nbsp;&nbsp;' + dateStart[0] + ' ' + this._getMonthName(dateStart[1]) + ', ' + dayNameStart + ' ' + formattedTime;
+                        } else {
+                                retVal = formattedTime;
+                        }
+
+                        return retVal;
+                }
+
+                /**
+                 * @type {!Array} date
+                 * @return {!string} - hh:mm
+                 * @private
+                 */
+
+        }, {
+                key: '_getFormattedTime24',
+                value: function _getFormattedTime24(date) {
+                        var formattedTime = '',
+                            hour = date[3],
+                            minute = date[4];
+
+                        // Ensure 2-digit minute value.
+                        minute = (minute < 10 ? '0' : '') + minute;
+
+                        // Ensure 2-digit hour value.
+                        hour = (hour < 10 ? '0' : '') + hour;
+
+                        // Format time.
+                        formattedTime = hour + ':' + minute;
+
+                        return formattedTime;
+                }
+
+                /**
+                 * @type {!Array} dateFormatted
+                 * @return {!string} - ????
+                 * @private
+                 */
+
+        }, {
+                key: '_getDayNameFormatted',
+                value: function _getDayNameFormatted(dateFormatted) {
+
+                        return this._getDayName(this._getDateFormatted(dateFormatted).getDay()) + ' ';
+                }
+
+                /**
+                 * @type {!number} day
+                 * @return {!string} - week day
+                 * @private
+                 */
+
+        }, {
+                key: '_getDayName',
+                value: function _getDayName(day) {
+
+                        /**
+                         * @type {!Array}
+                         */
+                        var dayNames = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+
+                        return dayNames[day];
+                }
+        }, {
+                key: '_getDateFormatted',
+
+
+                /**
+                 * @type {!Array} dateInfo
+                 * @return {!Date}
+                 * @private
+                 */
+                value: function _getDateFormatted(dateInfo) {
+
+                        return new Date(dateInfo[2], dateInfo[1], dateInfo[0], dateInfo[3], dateInfo[4] + 0, 0);
+                }
+
+                /**
+                 * Get month name according to index.
+                 *
+                 * @type {!number} month
+                 * @return {!string}
+                 * @private
+                 */
+
+        }, {
+                key: '_getMonthName',
+                value: function _getMonthName(month) {
+
+                        /**
+                         * @type {!Array}
+                         */
+                        var monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+
+                        return monthNames[month];
+                }
+        }, {
+                key: '_getSimpleLocation',
+
+
+                /**
+                 * @type {!string} location
+                 * @return {!string}
+                 * @private
+                 */
+                value: function _getSimpleLocation(location) {
+
+                        /**
+                         * @type {!string}
+                         */
+                        var simpleLocation = '';
+
+                        /**
+                         * @type {!number}
+                         */
+                        var secondCommaPosition = location.indexOf(',', location.indexOf(',', 0) + 1);
+
+                        if (secondCommaPosition > 0) {
+                                simpleLocation = location.substr(0, secondCommaPosition);
+                        }
+
+                        return '📍&nbsp;&nbsp;' + simpleLocation;
+                }
+        }]);
+
+        return SimpleView;
 }();
 
 exports.default = SimpleView;
@@ -820,7 +823,7 @@ exports.default = SimpleView;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -832,363 +835,363 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 var DetailedView = function () {
 
-  /**
-   * @param {!string} elementId
-   * @public
-   */
-  function DetailedView(elementId) {
-    _classCallCheck(this, DetailedView);
-
     /**
-     * @type {!string}
-     * @private
+     * @param {!string} elementId
+     * @public
      */
-    this._elementId = elementId;
-  }
+    function DetailedView(elementId) {
+        _classCallCheck(this, DetailedView);
 
-  /**
-   * @param {!Object} data
-   * @param {Date} date
-   * @public
-   */
-
-
-  _createClass(DetailedView, [{
-    key: 'render',
-    value: function render(data, date) {
-
-      if (!data) {
-        console.warn('SimpleView: cannot render null object. Skipped!');
-        return;
-      }
-
-      if (date) {
-        this._renderSpecificDate(data, date);
-        return;
-      }
-
-      /**
-       * The maximum number of events allowed to display
-       *
-       * @const {!number}
-       */
-      var upcomingTopN = 10;
-
-      /**
-       * @type {!Element}
-       */
-      var element = document.getElementById(this._elementId);
-
-      /**
-       * @type {!Array}
-       */
-      var result = [];
-
-      /**
-       * @type {!Array}
-       */
-      var upcomingResultTemp = [];
-
-      /**
-       * @type {!Array}
-       */
-      var upcomingResult = [];
-
-      /**
-       * @type {!number}
-       */
-      var upcomingCounter = 0;
-
-      // Remove cancelled events, sort by date
-      result = data.items.filter(function (item) {
-        return item && item.hasOwnProperty('status') && item.status !== 'cancelled';
-      }).sort(this._comp).reverse();
-
-      var i = void 0;
-
-      for (i in result) {
-        if (!this._isPast(result[i].end.dateTime || result[i].end.date)) {
-          upcomingResultTemp.push(result[i]);
-        }
-      }
-
-      upcomingResultTemp.reverse();
-
-      for (i in upcomingResultTemp) {
-        if (upcomingCounter < upcomingTopN) {
-          upcomingResult.push(upcomingResultTemp[i]);
-          upcomingCounter++;
-        }
-      }
-
-      /**
-       * @type {!string}
-       */
-      var innerHTML = '<h1 class="h2"> Подробно </h1>';
-
-      for (i in upcomingResult) {
-        innerHTML += this._transformToArticle(upcomingResult[i]);
-      }
-
-      element.innerHTML = innerHTML;
+        /**
+         * @type {!string}
+         * @private
+         */
+        this._elementId = elementId;
     }
 
     /**
-     * @param {Object} data
+     * @param {!Object} data
      * @param {Date} date
-     * @private
+     * @public
      */
 
-  }, {
-    key: '_renderSpecificDate',
-    value: function _renderSpecificDate(data, date) {
 
-      /**
-       * @type {!Element}
-       */
-      var element = document.getElementById(this._elementId);
+    _createClass(DetailedView, [{
+        key: 'render',
+        value: function render(data, date) {
 
-      /**
-       * @type {!Array}
-       */
-      var result = data.items.filter(function (item) {
-        return item && item.hasOwnProperty('status') && item.status !== 'cancelled' && moment(item.start.dateTime).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD');
-      }).sort(this._comp).reverse();
+            if (!data) {
+                console.warn('SimpleView: cannot render null object. Skipped!');
+                return;
+            }
 
-      var i = void 0;
+            if (date) {
+                this._renderSpecificDate(data, date);
+                return;
+            }
 
-      /**
-       * @type {!string}
-       */
-      var innerHTML = '<h1 class="h2"> Подробно </h1>';
+            /**
+             * The maximum number of events allowed to display
+             *
+             * @const {!number}
+             */
+            var upcomingTopN = 10;
 
-      for (i in result) {
-        innerHTML += this._transformToArticle(result[i]);
-      }
+            /**
+             * @type {!Element}
+             */
+            var element = document.getElementById(this._elementId);
 
-      element.innerHTML = innerHTML;
-    }
+            /**
+             * @type {!Array}
+             */
+            var result = [];
 
-    /**
-     * Check if date is later then now
-     *
-     * @param {!Date} date
-     * @return {!boolean}
-     * @private
-     */
+            /**
+             * @type {!Array}
+             */
+            var upcomingResultTemp = [];
 
-  }, {
-    key: '_isPast',
-    value: function _isPast(date) {
-      /**
-       * @type {!string}
-       */
-      var compareDate = new Date(date);
+            /**
+             * @type {!Array}
+             */
+            var upcomingResult = [];
 
-      /**
-       * @type {!string}
-       */
-      var now = new Date();
+            /**
+             * @type {!number}
+             */
+            var upcomingCounter = 0;
 
-      if (now.getTime() > compareDate.getTime()) {
-        return true;
-      }
+            // Remove cancelled events, sort by date
+            result = data.items.filter(function (item) {
+                return item && item.hasOwnProperty('status') && item.status !== 'cancelled';
+            }).sort(this._comp).reverse();
 
-      return false;
-    }
-  }, {
-    key: '_comp',
+            var i = void 0;
 
+            for (i in result) {
+                if (!this._isPast(result[i].end.dateTime || result[i].end.date)) {
+                    upcomingResultTemp.push(result[i]);
+                }
+            }
 
-    /**
-     * Compare dates.
-     *
-     * @param {!Object} a
-     * @param {!Object} b
-     * @return {!number}
-     * @private
-     */
-    value: function _comp(a, b) {
-      return new Date(a.start.dateTime || a.start.date).getTime() - new Date(b.start.dateTime || b.start.date).getTime();
-    }
+            upcomingResultTemp.reverse();
 
-    /**
-     * Transforms record to a line
-     *
-     * @param {!Object} event
-     * @return {!string}
-     * @private
-     */
+            for (i in upcomingResultTemp) {
+                if (upcomingCounter < upcomingTopN) {
+                    upcomingResult.push(upcomingResultTemp[i]);
+                    upcomingCounter++;
+                }
+            }
 
-  }, {
-    key: '_transformToArticle',
-    value: function _transformToArticle(event) {
-      /**
-       * @type {!string}
-       */
-      var retVal = '<article class="mt-5 mb-5">';
-      retVal += '<h2 class="h4 mb-0">' + '«' + event.summary + '»' + '</h2>';
-      retVal += '<div>';
+            /**
+             * @type {!string}
+             */
+            var innerHTML = '<h1 class="h2"> Подробно </h1>';
 
-      /**
-       * @type {!Array}
-       */
-      var dateStart = this._getDateInfo(event.start.dateTime || event.start.date);
+            for (i in upcomingResult) {
+                innerHTML += this._transformToArticle(upcomingResult[i]);
+            }
 
-      retVal += this._getFullFormattedDate(dateStart);
+            element.innerHTML = innerHTML;
+        }
 
-      retVal += '<p>' + event.description + '</p>';
+        /**
+         * @param {Object} data
+         * @param {Date} date
+         * @private
+         */
 
-      retVal += this._getFullLocation(event.location || ''), retVal += '</div>';
-      retVal += '</article>';
+    }, {
+        key: '_renderSpecificDate',
+        value: function _renderSpecificDate(data, date) {
 
-      return retVal;
-    }
+            /**
+             * @type {!Element}
+             */
+            var element = document.getElementById(this._elementId);
 
-    /**
-     * Get temp array with information abou day in followin format: [day number, month number, year, hours, minutes]
-     *
-     * @type {!string} startDate
-     * @return {!Array}
-     * @private
-     */
+            /**
+             * @type {!Array}
+             */
+            var result = data.items.filter(function (item) {
+                return item && item.hasOwnProperty('status') && item.status !== 'cancelled' && moment(item.start.dateTime).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD');
+            }).sort(this._comp).reverse();
 
-  }, {
-    key: '_getDateInfo',
-    value: function _getDateInfo(startDate) {
-      /**
-       * @type {!Date}
-       */
-      var date = new Date(startDate);
+            var i = void 0;
 
-      return [date.getDate(), date.getMonth(), date.getFullYear(), date.getHours(), date.getMinutes(), 0, 0];
-    }
-  }, {
-    key: '_getFullFormattedDate',
+            /**
+             * @type {!string}
+             */
+            var innerHTML = '<h1 class="h2"> Подробно </h1>';
 
+            for (i in result) {
+                innerHTML += this._transformToArticle(result[i]);
+            }
 
-    /**
-     * @type {!Array} dateStart
-     * @return {!string} - date, month, year, day, time
-     * @private
-     */
-    value: function _getFullFormattedDate(dateStart) {
-      /**
-       * @type {!string}
-       */
-      var formattedTime = ' в ' + this._getFormattedTime24(dateStart);
+            element.innerHTML = innerHTML;
+        }
 
-      /**
-       * @type {!string}
-       */
-      var dayNameStart = this._getDayNameFormatted(dateStart);
+        /**
+         * Check if date is later then now
+         *
+         * @param {!Date} date
+         * @return {!boolean}
+         * @private
+         */
 
-      return '<p>' + dateStart[0] + ' ' + this._getMonthName(dateStart[1]) + ' ' + dateStart[2] + ', ' + dayNameStart + ' ' + formattedTime + '</p>';
-    }
+    }, {
+        key: '_isPast',
+        value: function _isPast(date) {
+            /**
+             * @type {!string}
+             */
+            var compareDate = new Date(date);
 
-    /**
-     * @type {!Array} date
-     * @return {!string} - hh:mm
-     * @private
-     */
+            /**
+             * @type {!string}
+             */
+            var now = new Date();
 
-  }, {
-    key: '_getFormattedTime24',
-    value: function _getFormattedTime24(date) {
-      var formattedTime = '',
-          hour = date[3],
-          minute = date[4];
+            if (now.getTime() > compareDate.getTime()) {
+                return true;
+            }
 
-      // Ensure 2-digit minute value.
-      minute = (minute < 10 ? '0' : '') + minute;
-
-      // Ensure 2-digit hour value.
-      hour = (hour < 10 ? '0' : '') + hour;
-
-      // Format time.
-      formattedTime = hour + ':' + minute;
-
-      return formattedTime;
-    }
-
-    /**
-     * @type {!Array} dateFormatted
-     * @return {!string} - ????
-     * @private
-     */
-
-  }, {
-    key: '_getDayNameFormatted',
-    value: function _getDayNameFormatted(dateFormatted) {
-
-      return this._getDayName(this._getDateFormatted(dateFormatted).getDay()) + ' ';
-    }
-
-    /**
-     * @type {!number} day
-     * @return {!string} - week day
-     * @private
-     */
-
-  }, {
-    key: '_getDayName',
-    value: function _getDayName(day) {
-
-      /**
-       * @type {!Array}
-       */
-      var dayNames = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
-
-      return dayNames[day];
-    }
-  }, {
-    key: '_getDateFormatted',
+            return false;
+        }
+    }, {
+        key: '_comp',
 
 
-    /**
-     * @type {!Array} dateInfo
-     * @return {!Date}
-     * @private
-     */
-    value: function _getDateFormatted(dateInfo) {
+        /**
+         * Compare dates.
+         *
+         * @param {!Object} a
+         * @param {!Object} b
+         * @return {!number}
+         * @private
+         */
+        value: function _comp(a, b) {
+            return new Date(a.start.dateTime || a.start.date).getTime() - new Date(b.start.dateTime || b.start.date).getTime();
+        }
 
-      return new Date(dateInfo[2], dateInfo[1], dateInfo[0], dateInfo[3], dateInfo[4] + 0, 0);
-    }
+        /**
+         * Transforms record to a line
+         *
+         * @param {!Object} event
+         * @return {!string}
+         * @private
+         */
 
-    /**
-     * Get month name according to index.
-     *
-     * @type {!number} month
-     * @return {!string}
-     * @private
-     */
+    }, {
+        key: '_transformToArticle',
+        value: function _transformToArticle(event) {
+            /**
+             * @type {!string}
+             */
+            var retVal = '<article class="mt-5 mb-5">';
+            retVal += '<h2 class="h4 mb-0">' + '«' + event.summary + '»' + '</h2>';
+            retVal += '<div>';
 
-  }, {
-    key: '_getMonthName',
-    value: function _getMonthName(month) {
+            /**
+             * @type {!Array}
+             */
+            var dateStart = this._getDateInfo(event.start.dateTime || event.start.date);
 
-      /**
-       * @type {!Array}
-       */
-      var monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+            retVal += this._getFullFormattedDate(dateStart);
 
-      return monthNames[month];
-    }
-  }, {
-    key: '_getFullLocation',
+            retVal += '<p>' + event.description + '</p>';
+
+            retVal += this._getFullLocation(event.location || ''), retVal += '</div>';
+            retVal += '</article>';
+
+            return retVal;
+        }
+
+        /**
+         * Get temp array with information abou day in followin format: [day number, month number, year, hours, minutes]
+         *
+         * @type {!string} startDate
+         * @return {!Array}
+         * @private
+         */
+
+    }, {
+        key: '_getDateInfo',
+        value: function _getDateInfo(startDate) {
+            /**
+             * @type {!Date}
+             */
+            var date = new Date(startDate);
+
+            return [date.getDate(), date.getMonth(), date.getFullYear(), date.getHours(), date.getMinutes(), 0, 0];
+        }
+    }, {
+        key: '_getFullFormattedDate',
 
 
-    /**
-     * @type {!string} location
-     * @return {!string}
-     * @private
-     */
-    value: function _getFullLocation(location) {
-      return '<p>' + '📍&nbsp;&nbsp;' + location + '</p>';
-    }
-  }]);
+        /**
+         * @type {!Array} dateStart
+         * @return {!string} - date, month, year, day, time
+         * @private
+         */
+        value: function _getFullFormattedDate(dateStart) {
+            /**
+             * @type {!string}
+             */
+            var formattedTime = ' в ' + this._getFormattedTime24(dateStart);
 
-  return DetailedView;
+            /**
+             * @type {!string}
+             */
+            var dayNameStart = this._getDayNameFormatted(dateStart);
+
+            return '<p>' + dateStart[0] + ' ' + this._getMonthName(dateStart[1]) + ' ' + dateStart[2] + ', ' + dayNameStart + ' ' + formattedTime + '</p>';
+        }
+
+        /**
+         * @type {!Array} date
+         * @return {!string} - hh:mm
+         * @private
+         */
+
+    }, {
+        key: '_getFormattedTime24',
+        value: function _getFormattedTime24(date) {
+            var formattedTime = '',
+                hour = date[3],
+                minute = date[4];
+
+            // Ensure 2-digit minute value.
+            minute = (minute < 10 ? '0' : '') + minute;
+
+            // Ensure 2-digit hour value.
+            hour = (hour < 10 ? '0' : '') + hour;
+
+            // Format time.
+            formattedTime = hour + ':' + minute;
+
+            return formattedTime;
+        }
+
+        /**
+         * @type {!Array} dateFormatted
+         * @return {!string} - ????
+         * @private
+         */
+
+    }, {
+        key: '_getDayNameFormatted',
+        value: function _getDayNameFormatted(dateFormatted) {
+
+            return this._getDayName(this._getDateFormatted(dateFormatted).getDay()) + ' ';
+        }
+
+        /**
+         * @type {!number} day
+         * @return {!string} - week day
+         * @private
+         */
+
+    }, {
+        key: '_getDayName',
+        value: function _getDayName(day) {
+
+            /**
+             * @type {!Array}
+             */
+            var dayNames = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+
+            return dayNames[day];
+        }
+    }, {
+        key: '_getDateFormatted',
+
+
+        /**
+         * @type {!Array} dateInfo
+         * @return {!Date}
+         * @private
+         */
+        value: function _getDateFormatted(dateInfo) {
+
+            return new Date(dateInfo[2], dateInfo[1], dateInfo[0], dateInfo[3], dateInfo[4] + 0, 0);
+        }
+
+        /**
+         * Get month name according to index.
+         *
+         * @type {!number} month
+         * @return {!string}
+         * @private
+         */
+
+    }, {
+        key: '_getMonthName',
+        value: function _getMonthName(month) {
+
+            /**
+             * @type {!Array}
+             */
+            var monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+
+            return monthNames[month];
+        }
+    }, {
+        key: '_getFullLocation',
+
+
+        /**
+         * @type {!string} location
+         * @return {!string}
+         * @private
+         */
+        value: function _getFullLocation(location) {
+            return '<p>' + '📍&nbsp;&nbsp;' + location + '</p>';
+        }
+    }]);
+
+    return DetailedView;
 }();
 
 exports.default = DetailedView;
@@ -1265,7 +1268,9 @@ var CalendarView = function () {
             /**
              * Init and render Kendo UI calendar
              */
-            $('#calendar-view').kendoCalendar({
+            $('#calendar-view').append('<div class="mx-auto d-block">HUI</div>');
+            var kendoWrapper = $('#calendar-view>div');
+            kendoWrapper.kendoCalendar({
                 value: today,
                 change: function change() {
                     if (that._onDateChangedCallback) {
@@ -1279,6 +1284,13 @@ var CalendarView = function () {
                 },
                 culture: "ru-RU"
             });
+        }
+    }, {
+        key: 'remove',
+        value: function remove() {
+            var data = $('#calendar-view [data-role="calendar"]').data("kendoCalendar");
+            data.destroy();
+            data.wrapper.empty().remove();
         }
 
         /**
