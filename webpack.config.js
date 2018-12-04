@@ -10,7 +10,8 @@ module.exports = {
         filename: 'app.bundle.js'
     },
     module: {
-        loaders: [
+        // https://stackoverflow.com/questions/49203841/webpack-4-1-1-configuration-module-has-an-unknown-property-loaders/49203878
+        rules: [
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
