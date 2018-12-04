@@ -27,12 +27,16 @@ module.exports = {
     devServer: {
         contentBase: './'
     },
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            include: /\.min\.js$/,
-            sourceMap: true,
-            parallel: true,
-            sourceMap: false
-        })
-    ]  
+    optimization: {
+        minimizer: [
+            // https://stackoverflow.com/questions/49053215/webpack-4-how-to-configure-minimize
+            new UglifyJSPlugin({
+                include: /\.min\.js$/,
+                sourceMap: true,
+                parallel: true,
+                sourceMap: false
+            })
+        ]
+    }
+
 };
