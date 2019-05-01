@@ -1,4 +1,11 @@
-# events4friends
+# events4friends (ARCHIVED)
+
+>
+> NOTE!
+> Этот репозиторий больше не поддерживается.
+> [Сайт](http://events4friends.ru/) был переписан на React и помещен в новый репозиторий.
+> Актуальный код находится в [новом репозитории](https://github.com/VadimCpp/events4friends.ru-react)
+>
 
 Делимся с друзьями событиями, которые хотим посетить.
 
